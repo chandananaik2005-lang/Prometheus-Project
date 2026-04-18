@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prometheus – Tech Radar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen active" id="screen-login">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+  <div class="auth-card">
+    <h2>Welcome Back</h2>
+    <p class="auth-sub">Log in to your personalized tech intelligence dashboard.</p>
+   
+    <div class="divider"><span>LOGIN</span></div>
+    <label class="field-label">Email address</label>
+    <input id="login-email" class="input-field" type="email" placeholder="name@company.com">
+    <label class="field-label">Password <a href="#">Forgot password?</a></label>
+    <input id="login-password" class="input-field" type="password" placeholder="••••••••">
+    <button class="btn-primary" onclick="login()">Log In</button>
+    <p class="auth-switch">Don't have an account? <a href="#" onclick="showScreen('signup'); return false;">Sign up free</a></p>
+  </div>
+ 
+</div>
+
+<!-- ════════════════════════════════
+     SIGNUP SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen" id="screen-signup">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+  <div class="auth-card">
+    <h2>Create Your Account</h2>
+    <p class="auth-sub">Join thousands of tech professionals staying ahead of the curve.</p>
+    
+    <div class="divider"><span> SIGNUP</span></div>
+    <label class="field-label">Full name</label>
+    <input id="signup-name" class="input-field" type="text" placeholder="Alexander Voss">
+    <label class="field-label">Work email</label>
+    <input  id="signup-email" class="input-field" type="email" placeholder="name@company.com">
+    <label class="field-label">Password</label>
+    <input id="signup-password" class="input-field" type="password" placeholder="Min. 8 characters">
+    <label class="field-label">Confirm password</label>
+    <input id="signup-confirm" class="input-field" type="password" placeholder="Re-enter password">
+    <button class="btn-primary" onclick="signup()">Create Account</button>
+    <p class="auth-switch">Already have an account? <a href="#" onclick="showScreen('login'); return false;">Log in</a></p>
+  </div>
+  <div class="auth-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Help Center</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DASHBOARD
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-dashboard">
+  <!-- sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showScreen('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showScreen('analytics')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>
+        Analytics
+      </div>
+      <div class="nav-item" onclick="showScreen('bookmarks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Bookmarks
+      </div>
+      <div class="nav-item" onclick="showScreen('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="logout-btn" onclick="showScreen('login')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+  <!-- main -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right">
+        <div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="avatar">AV</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="feature-cards">
+        <div class="feature-card blue" onclick="showScreen('article')">
+          <div class="feature-card-tag">Market Intelligence</div>
+          <h3>From LLMs to Multimodal Models</h3>
+          <p>Multi-modal reasoning is becoming the baseline. 85% of enterprises now prioritize vision-and-voice integration.</p>
+          <div class="deep-dive">Deep Dive →</div>
+        </div>
+        <div class="feature-card teal" onclick="showScreen('article')">
+          <div class="feature-card-tag">Policy Radar</div>
+          <h3>Autonomous Robotics Regulation 2024</h3>
+          <p>New EU directives mandate 'kill-switches' for industrial cobots. Implications for factory automation costs are...</p>
+          <div class="deep-dive">Deep Dive →</div>
+        </div>
+      </div>
+      <div class="feed-section">
+        <div>
+          <div class="feed-header">
+            <h3>Intelligence Feed</h3>
+            <span class="badge">24 New Updates</span>
+            <div class="view-toggle">
+              <div class="view-btn active"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+              <div class="view-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            </div>
+          </div>
+          <div class="feed-item" onclick="showScreen('article')">
+            <div class="feed-thumb"><div class="feed-thumb-inner ai">🤖</div></div>
+            <div>
+              <div class="feed-meta">Tech News <span>· 2h ago</span></div>
+              <div class="feed-title">OpenAI Unveils Sora: A Leap in Text-to-Video Synthesis</div>
+              <div class="feed-desc">⚡ Realistic high-fidelity video generation from text prompts.</div>
+              <div class="feed-tags"><span class="tag">#GENERATIVE</span><span class="tag">#VIDEO</span><span class="tag">#OPENAI</span></div>
+            </div>
+          </div>
+          <div class="feed-item" onclick="showScreen('article')">
+            <div class="feed-thumb"><div class="feed-thumb-inner edge">💻</div></div>
+            <div>
+              <div class="feed-meta">Edge Tech <span>· 5h ago</span></div>
+              <div class="feed-title">The Rise of On-Device Inference: Why TinyML Matters</div>
+              <div class="feed-desc">⚡ Efficiency gains from local execution without cloud latency.</div>
+              <div class="feed-tags"><span class="tag">#HARDWARE</span><span class="tag">#EDGE</span><span class="tag">#PRIVACY</span></div>
+            </div>
+          </div>
+          <div class="feed-item" onclick="showScreen('article')">
+            <div class="feed-thumb"><div class="feed-thumb-inner ar">🥽</div></div>
+            <div>
+              <div class="feed-meta">Spatial Insider <span>· 1d ago</span></div>
+              <div class="feed-title">Apple Vision Pro: Three Months in the Wild</div>
+              <div class="feed-desc">⚡ Ecosystem growth remains slow but enterprise adoption picks up.</div>
+              <div class="feed-tags"><span class="tag">#AR</span><span class="tag">#VR</span><span class="tag">#ENTERPRISE</span></div>
+            </div>
+          </div>
+          <div class="feed-item" onclick="showScreen('article')">
+            <div class="feed-thumb"><div class="feed-thumb-inner energy">🔋</div></div>
+            <div>
+              <div class="feed-meta">Energy Hub <span>· 3d ago</span></div>
+              <div class="feed-title">Solid State Batteries: The 1,000km EV Dream</div>
+              <div class="feed-desc">⚡ New electrolyte breakthroughs shorten production timelines.</div>
+              <div class="feed-tags"><span class="tag">#CLIMATE</span><span class="tag">#EV</span><span class="tag">#MATERIALS</span></div>
+            </div>
+          </div>
+          <div class="feed-item" onclick="showScreen('article')">
+            <div class="feed-thumb"><div class="feed-thumb-inner sec">🔐</div></div>
+            <div>
+              <div class="feed-meta">SecOps Digest <span>· 4d ago</span></div>
+              <div class="feed-title">Cybersecurity in the Post-Quantum Era</div>
+              <div class="feed-desc">⚡ Lattice-based cryptography is the new standard for NIST.</div>
+              <div class="feed-tags"><span class="tag">#SECURITY</span><span class="tag">#QUANTUM</span><span class="tag">#NIST</span></div>
+            </div>
+          </div>
+          <div class="load-more">Load More Intelligence →</div>
+        </div>
+        <div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">📈 Trending Radar</div>
+              <span class="widget-see-all">See all</span>
+            </div>
+            <div class="trend-item"><div><div class="trend-name">LLM Orchestration</div><div class="trend-count">2.4k news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Quantum Supremacy</div><div class="trend-count">1.1k news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Sovereign Intelligence</div><div class="trend-count">850 news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Spatial Computing</div><div class="trend-count">2.1k news</div></div><span class="trend-arrow">↗</span></div>
+          </div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">✨ Prompt Prometheus</div>
+            </div>
+            <div class="prompt-item">Summarize today's breakthroughs <span>›</span></div>
+            <div class="prompt-item">Find funding news in Robotics <span>›</span></div>
+            <div class="prompt-item">Explain latest NVIDIA results <span>›</span></div>
+            <div class="prompt-item">Analyze sentiment on Web3 <span>›</span></div>
+            <div class="prompt-note">Assistant is ready to synthesize context from your feed.</div>
+          </div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">Source Trust Index</div>
+            </div>
+            <div class="trust-table">
+              <div class="trust-row"><span class="trust-pub">TechCrunch</span><span class="trust-val">98%</span></div>
+              <div class="trust-row"><span class="trust-pub">The Verge</span><span class="trust-val">94%</span></div>
+              <div class="trust-row"><span class="trust-pub">Ars Technica</span><span class="trust-val">99%</span></div>
+              <div class="trust-row"><span class="trust-pub">VentureBeat</span><span class="trust-val">91%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- voice fab -->
+  <div style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:40;box-shadow:0 4px 20px rgba(59,110,245,.4);" onclick="openVoice()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ARTICLE VIEW
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-article">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="showScreen('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right">
+        <div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="avatar">AV</div>
+      </div>
+    </div>
+    <div class="article-layout">
+      <!-- left feed -->
+      <div class="article-sidebar">
+        <div class="article-sidebar-header">
+          <span class="article-sidebar-title">✨ Latest Intel</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="latest-item"><span class="latest-cat cat-computing">Computing</span><div class="latest-time">2h ago</div><div class="latest-title">Quantum Supremacy in 2024</div><div class="latest-desc">Google's new processor hits 1000 qubits.</div></div>
+        <div class="latest-item"><span class="latest-cat cat-space">Space</span><div class="latest-time">5h ago</div><div class="latest-title">Mars Colonisation Update</div><div class="latest-desc">First habitat module prototype successfully tested.</div></div>
+        <div class="latest-item"><span class="latest-cat cat-biotech">BioTech</span><div class="latest-time">8h ago</div><div class="latest-title">Neuralink Human Trials</div><div class="latest-desc">FDA approves expanded testing for paralysed patients.</div></div>
+        <div class="latest-item"><span class="latest-cat cat-energy">Energy</span><div class="latest-time">12h ago</div><div class="latest-title">Fusion Power Milestone</div><div class="latest-desc">JET reactor maintains plasma for record 10 minutes.</div></div>
+        <div class="latest-item"><span class="latest-cat cat-robotics">Robotics</span><div class="latest-time">1d ago</div><div class="latest-title">Autonomous Drone Swarms</div><div class="latest-desc">New coordination algorithm prevents collisions.</div></div>
+      </div>
+      <!-- article -->
+      <div class="article-body">
+        <div class="article-cat-badge">Artificial Intelligence</div>
+        <h1>The Rise of Agentic Systems: Beyond Large Language Models</h1>
+        <div class="article-meta">
+          <div class="article-author-avatar">EV</div>
+          <div><div class="article-author-name">Dr. Elena Vance</div><div class="article-date">Oct 24, 2024 · 8 min read</div></div>
+          <div class="article-actions">
+            <div class="article-action-btn">🔖</div>
+            <div class="article-action-btn">↗</div>
+          </div>
+        </div>
+        <div class="article-hero">🧠</div>
+        <p>The landscape of artificial intelligence is undergoing a seismic shift. While the last two years were dominated by Large Language Models (LLMs) like GPT-4, the industry is now pivoting towards agentic systems — software that can plan, reason, and execute complex workflows autonomously.</p>
+        <p>Unlike traditional chatbots, an agentic system possesses a sense of agency. It can break down a high-level goal — such as "organise a multi-city research trip" — into constituent tasks: booking flights, researching local experts, synthesising interview notes, and managing a budget.</p>
+        <p>The core architectural difference lies in the feedback loops. Agentic systems use recursive reasoning to check their own work, browse the live web, and interact with software APIs. They are effectively becoming the 'operating system' for digital labour.</p>
+        <p>However, this autonomy brings significant challenges in safety and alignment. If an agent is empowered to move funds or modify code independently, the margin for error shrinks to near zero. We are now entering an era where the 'human-in-the-loop' is transitioning to a 'human-on-the-loop' supervisor.</p>
+        <div class="article-quote"><p>"The question is no longer what the machine can say, but what the machine can do."</p></div>
+        <div class="article-ctas">
+          <button class="btn-primary-sm">Mark as Read</button>
+          <button class="btn-secondary">Save to Research Folder</button>
+        </div>
+      </div>
+      <!-- intel hub -->
+      <div class="intel-hub">
+        <div class="intel-hub-header">
+          <span style="font-size:18px;">🧠</span>
+          <span class="intel-hub-title">Intelligence Hub</span>
+        </div>
+        <div class="intel-powered">POWERED BY PROMETHEUS V4</div>
+        <div class="intel-section">
+          <div class="intel-section-title">✨ Executive Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></div>
+          <div class="intel-section-body">Agentic systems represent a transition from conversational chatbots to autonomous goal-oriented systems capable of multi-step reasoning and tool usage.</div>
+        </div>
+        <div class="intel-section">
+          <div class="intel-section-title">📍 ELI5 Simplified <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="intel-section">
+          <div class="intel-section-title">💡 Key Insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div>
+            <div class="insight-item"><div class="insight-dot" style="background:#3b6ef5"></div>Autonomy over interaction: Goal-driven vs. Prompt-driven.</div>
+            <div class="insight-item"><div class="insight-dot" style="background:#22c55e"></div>Tool integration: Native ability to use APIs, Browsers, and Code.</div>
+            <div class="insight-item"><div class="insight-dot" style="background:#eab308"></div>Recursive reasoning: Self-correction and planning cycles.</div>
+            <div class="insight-item"><div class="insight-dot" style="background:#ef4444"></div>Safety shift: Moving from 'hallucination' risks to 'execution' risks.</div>
+          </div>
+        </div>
+        <div class="chat-section">
+          <div class="chat-label"><span class="live-dot"></span> CONTEXTUAL NEURAL-CHAT</div>
+          <div class="chat-bubble">I've analysed the paper on Agentic Systems. What would you like to deep-dive into?</div>
+          <div class="chat-suggestions">
+            <div class="chat-sug">Explain 'Human-on-the-loop'</div>
+            <div class="chat-sug">Safety risks?</div>
+            <div class="chat-sug">Comparison to LLMs</div>
+          </div>
+          <div class="chat-input-row">
+            <input class="chat-input" placeholder="Ask Prometheus about this article...">
+            <button class="chat-send">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ANALYTICS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-analytics">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item active" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="showScreen('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right"><div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">AV</div></div>
+    </div>
+    <div class="page-content">
+      <div class="analytics-header">
+        <div><h2>Analytics Hub</h2><p>Real-time intelligence and sentiment tracking across the global tech landscape.</p></div>
+        <div class="analytics-btns"><button class="btn-outline">Export Report</button><button class="btn-accent-sm">Intelligence Report</button></div>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card"><span class="stat-trend up">+12.5%</span><div class="stat-label">Positive Sentiment</div><div class="stat-value">68%</div></div>
+        <div class="stat-card"><span class="stat-trend" style="background:rgba(160,160,160,.1);color:var(--text3);">-2.1%</span><div class="stat-label">Neutral Volume</div><div class="stat-value">24%</div></div>
+        <div class="stat-card"><span class="stat-trend down">-5.4%</span><div class="stat-label">Negative Outlook</div><div class="stat-value">8%</div></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h4>Market Velocity</h4>
+          <p>Topic mention frequency over the last 6 months</p>
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 500 160" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b6ef5" stop-opacity=".3"/><stop offset="100%" stop-color="#3b6ef5" stop-opacity="0"/></linearGradient>
+              </defs>
+              <!-- grid lines -->
+              <line x1="0" y1="20" x2="500" y2="20" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="55" x2="500" y2="55" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="90" x2="500" y2="90" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="125" x2="500" y2="125" stroke="#2a2a2a" stroke-width="1"/>
+              <!-- labels -->
+              <text x="0" y="18" fill="#555" font-size="10">8500</text>
+              <text x="0" y="53" fill="#555" font-size="10">6600</text>
+              <text x="0" y="88" fill="#555" font-size="10">4700</text>
+              <text x="0" y="123" fill="#555" font-size="10">2800</text>
+              <!-- line: AI & ML -->
+              <path d="M30,130 C100,115 200,90 300,60 C380,35 440,20 480,10" fill="none" stroke="#3b6ef5" stroke-width="2.5"/>
+              <!-- line: Robotics -->
+              <path d="M30,140 C100,135 200,128 300,115 C380,105 440,95 480,88" fill="none" stroke="#22c55e" stroke-width="2"/>
+              <!-- line: Space Tech -->
+              <path d="M30,145 C100,143 200,140 300,135 C380,130 440,127 480,125" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <!-- line: Quantum -->
+              <path d="M30,150 C100,149 200,148 300,145 C380,143 440,141 480,138" fill="none" stroke="#eab308" stroke-width="2"/>
+              <!-- x labels -->
+              <text x="30" y="158" fill="#555" font-size="10">Jan</text>
+              <text x="120" y="158" fill="#555" font-size="10">Feb</text>
+              <text x="210" y="158" fill="#555" font-size="10">Mar</text>
+              <text x="300" y="158" fill="#555" font-size="10">Apr</text>
+              <text x="390" y="158" fill="#555" font-size="10">May</text>
+              <text x="465" y="158" fill="#555" font-size="10">Jun</text>
+            </svg>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;">
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#3b6ef5;display:inline-block;"></span><span style="color:var(--text3)">AI & ML</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span><span style="color:var(--text3)">Robotics</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span><span style="color:var(--text3)">Space Tech</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#eab308;display:inline-block;"></span><span style="color:var(--text3)">Quantum</span></span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4>Focus Distribution</h4>
+          <p>Share of mentions by tech sub-sector</p>
+          <div class="donut-wrap">
+            <svg class="donut-svg" viewBox="0 0 130 130">
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#1e1e1e" stroke-width="22"/>
+              <!-- Generative AI 45% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#3b6ef5" stroke-width="22" stroke-dasharray="141.3 314" stroke-dashoffset="0" transform="rotate(-90 65 65)"/>
+              <!-- LLMs 25% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#22c55e" stroke-width="22" stroke-dasharray="78.5 314" stroke-dashoffset="-141.3" transform="rotate(-90 65 65)"/>
+              <!-- Robotics 15% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#ef4444" stroke-width="22" stroke-dasharray="47.1 314" stroke-dashoffset="-219.8" transform="rotate(-90 65 65)"/>
+              <!-- Cybersecurity 10% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#eab308" stroke-width="22" stroke-dasharray="31.4 314" stroke-dashoffset="-266.9" transform="rotate(-90 65 65)"/>
+              <!-- Web3 5% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#14b8a6" stroke-width="22" stroke-dasharray="15.7 314" stroke-dashoffset="-298.3" transform="rotate(-90 65 65)"/>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#3b6ef5"></div><span class="legend-name">Generative Systems</span><span class="legend-pct">45%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div><span class="legend-name">LLMs</span><span class="legend-pct">25%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div><span class="legend-name">Robotics</span><span class="legend-pct">15%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div><span class="legend-name">Cybersecurity</span><span class="legend-pct">10%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div><span class="legend-name">Web3</span><span class="legend-pct">5%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="influencers-card">
+        <h4>Top Market Influencers</h4>
+        <p>Companies and projects seeing the highest engagement surge</p>
+        <table class="influencer-table">
+          <thead><tr><th>Entity</th><th>Industry Segment</th><th>Total Mentions</th><th>Sentiment Index</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e3a8a,#7c3aed)">O</div><div><div class="entity-name">OpenAI</div><div class="entity-id">ID: PRM-1092</div></div></div></td>
+              <td style="color:var(--text2);font-size:13px;">Software</td>
+              <td style="color:var(--text2);font-size:13px;">124.5k</td>
+              <td><div class="sent-bar-wrap"><div class="sent-bar" style="width:88px"></div><span style="font-size:12px;color:var(--text2)">88%</span></div></td>
+              <td><span class="explore-link">Explore ↗</span></td>
+            </tr>
+            <tr>
+              <td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e4030,#065f46)">N</div><div><div class="entity-name">NVIDIA</div><div class="entity-id">ID: PRM-2092</div></div></div></td>
+              <td style="color:var(--text2);font-size:13px;">Hardware</td>
+              <td style="color:var(--text2);font-size:13px;">98.2k</td>
+              <td><div class="sent-bar-wrap"><div class="sent-bar" style="width:92px"></div><span style="font-size:12px;color:var(--text2)">92%</span></div></td>
+              <td><span class="explore-link">Explore ↗</span></td>
+            </tr>
+            <tr>
+              <td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#134e4a,#0d9488)">M</div><div><div class="entity-name">Mistral</div><div class="entity-id">ID: PRM-3092</div></div></div></td>
+              <td style="color:var(--text2);font-size:13px;">Open Source</td>
+              <td style="color:var(--text2);font-size:13px;">45.1k</td>
+              <td><div class="sent-bar-wrap"><div class="sent-bar" style="width:76px;background:#22c55e"></div><span style="font-size:12px;color:var(--text2)">76%</span></div></td>
+              <td><span class="explore-link">Explore ↗</span></td>
+            </tr>
+            <tr>
+              <td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#451a03,#92400e)">A</div><div><div class="entity-name">Anthropic</div><div class="entity-id">ID: PRM-4092</div></div></div></td>
+              <td style="color:var(--text2);font-size:13px;">Safety</td>
+              <td style="color:var(--text2);font-size:13px;">38.9k</td>
+              <td><div class="sent-bar-wrap"><div class="sent-bar" style="width:81px"></div><span style="font-size:12px;color:var(--text2)">81%</span></div></td>
+              <td><span class="explore-link">Explore ↗</span></td>
+            </tr>
+            <tr>
+              <td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">T</div><div><div class="entity-name">Tesla</div><div class="entity-id">ID: PRM-5092</div></div></div></td>
+              <td style="color:var(--text2);font-size:13px;">Automotive</td>
+              <td style="color:var(--text2);font-size:13px;">31.2k</td>
+              <td><div class="sent-bar-wrap"><div class="sent-bar" style="width:42px;background:#eab308"></div><span style="font-size:12px;color:var(--text2)">42%</span></div></td>
+              <td><span class="explore-link">Explore ↗</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bottom-cards">
+        <div class="bottom-card">
+          <div class="bottom-card-icon">💬</div>
+          <h4>Social Discourse Summary</h4>
+          <p>Discussions around <span class="highlight">Generative Video</span> have surged by 240% this week following several major model releases. Market sentiment remains cautiously optimistic, focusing on enterprise productivity applications.</p>
+          <a>Read full breakdown →</a>
+        </div>
+        <div class="bottom-card">
+          <div class="bottom-card-icon">🚀</div>
+          <h4>Emerging Breakthroughs</h4>
+          <p><span class="highlight2">Solid-state battery technology</span> mentions reached a 12-month high. Investors are pivoting interest from software to high-density energy storage startups in northern Europe.</p>
+          <a>View emerging tech radar →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     BOOKMARKS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-bookmarks">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item active" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="showScreen('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right"><div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">AV</div></div>
+    </div>
+    <div class="page-content">
+      <div class="bk-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span style="font-size:20px;">🔖</span><h2 style="font-size:28px;font-weight:800;margin:0;">Intelligence Library</h2></div>
+          <p style="color:var(--text2);font-size:14px;">Manage and revisit your curated tech insights.</p>
+        </div>
+        <div class="bk-actions"><button class="btn-outline" style="font-size:12px;">↑↓ Sort: Recency</button><button class="btn-outline" style="font-size:12px;">◎ Select</button></div>
+      </div>
+      <div class="bk-stats">
+        <div><div class="bk-stat-num">42</div><div class="bk-stat-label">Saved Articles</div></div>
+        <div><div class="bk-stat-num blue">12</div><div class="bk-stat-label">Unread</div></div>
+        <div><div class="bk-stat-num green">5</div><div class="bk-stat-label">Shared</div></div>
+      </div>
+      <div class="bk-filters">
+        <button class="bk-filter active">All</button>
+        <button class="bk-filter">Generative</button>
+        <button class="bk-filter">Robotics</button>
+        <button class="bk-filter">Web3</button>
+        <button class="bk-filter">Quantum Computing</button>
+        <button class="bk-filter">Sustainability</button>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb ai2">🤖</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">The Rise of Agentic Systems: Why LLMs are moving beyond chat</div><span class="bk-tag gen-ai">Generative</span></div>
+          <div class="bk-desc">An exploration of how autonomous agents are redefining the productivity landscape.</div>
+          <div class="bk-meta"><span>Saved 2 days ago</span><span>·</span><span>8 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb bio">🧬</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Neuralink Update: Successful second human implant progress</div><span class="bk-tag robotics">Robotics</span></div>
+          <div class="bk-desc">Deep dive into the latest clinical results from Brain-Computer Interface trials.</div>
+          <div class="bk-meta"><span>Saved 5 days ago</span><span>·</span><span>12 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb sust">🔋</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Solid-State Battery Breakthrough: 1000km range EVs</div><span class="bk-tag sust2">Sustainability</span></div>
+          <div class="bk-desc">Toyota and QuantumScape announce milestones in mass production viability.</div>
+          <div class="bk-meta"><span>Saved 1 week ago</span><span>·</span><span>6 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb qc">🔐</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Post-Quantum Cryptography: NIST releases first standards</div><span class="bk-tag qc2">Quantum</span></div>
+          <div class="bk-desc">What every CTO needs to know about securing data against future threats.</div>
+          <div class="bk-meta"><span>Saved Oct 12</span><span>·</span><span>15 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb web3">🌐</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Is Web3 Dead? Or just growing up?</div><span class="bk-tag web32">Web3</span></div>
+          <div class="bk-desc">Analysis of institutional adoption vs. retail hype in the current market cycle.</div>
+          <div class="bk-meta"><span>Saved Oct 10</span><span>·</span><span>10 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')">
+        <div class="bk-thumb robot">🦾</div>
+        <div class="bk-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Precision Robotics in Modern Vertical Farming</div><span class="bk-tag robotics">Robotics</span></div>
+          <div class="bk-desc">How automation is solving the labour shortage in indoor agricultural facilities.</div>
+          <div class="bk-meta"><span>Saved Oct 8</span><span>·</span><span>7 min read</span></div>
+        </div>
+        <span class="bk-ext">↗</span>
+      </div>
+      <div class="bk-end">You've reached the end of your library.<br><span class="bk-discover" onclick="showScreen('dashboard')">Discover more trends</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SETTINGS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-settings">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item active" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="showScreen('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right"><div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">AV</div></div>
+    </div>
+    <div class="page-content">
+      <div class="settings-breadcrumb">SETTINGS › <span>USER PROFILE</span></div>
+      <div class="settings-header"><h2>Account & Preferences</h2></div>
+      <div class="settings-grid">
+        <!-- Profile card -->
+        <div class="settings-card">
+          <div class="profile-center">
+            <div class="profile-avatar">AV<div class="profile-online"></div></div>
+            <div class="profile-name">Alexander Voss</div>
+            <div class="profile-email">a.voss@prometheus.ai</div>
+            <div class="profile-badges"><span class="profile-badge badge-pro">Pro Member</span><span class="profile-badge badge-lead">Tech Lead</span></div>
+          </div>
+          <div class="profile-actions">
+            <div class="profile-action">💳 Billing</div>
+            <div class="profile-action">⚡ Usage</div>
+          </div>
+          <button class="signout-btn" onclick="showScreen('login')">↗ Sign Out of Prometheus</button>
+          <div class="app-ver">APP VERSION 2.4.1-DELTA</div>
+        </div>
+        <!-- Connected accounts -->
+        <div class="settings-card">
+          <div class="section-card-header" style="display:flex;align-items:center;gap:6px;"><span>↗</span> Connected Accounts</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:16px;">Integrate Prometheus with your social accounts for personalised insights.</p>
+          <div class="connected-item"><div class="connected-icon">🐙</div><div><div class="connected-name">GitHub</div><div class="connected-handle">alex-voss-dev</div></div><span class="connected-action disc">Disconnect</span></div>
+          <div class="connected-item"><div class="connected-icon">𝕏</div><div><div class="connected-name">Twitter / X</div><div class="connected-handle">@alex_voss</div></div><span class="connected-action disc">Disconnect</span></div>
+          <div class="connected-item"><div class="connected-icon">in</div><div><div class="connected-name">LinkedIn</div><div class="connected-handle">Not connected</div></div><span class="connected-action conn">Connect</span></div>
+        </div>
+        <!-- Radar interests -->
+        <div class="settings-card">
+          <div class="section-card-header" style="display:flex;align-items:center;gap:6px;"><span>⚡</span> Radar Interests</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:14px;">Customise the Radar to prioritise topics most relevant to your research goals.</p>
+          <div class="topic-chips">
+            <span class="topic-chip selected">Artificial Intelligence</span>
+            <span class="topic-chip selected">Neurotech</span>
+            <span class="topic-chip selected">Robotics</span>
+            <span class="topic-chip selected">Web3</span>
+            <span class="topic-chip unselected">Quantum Computing</span>
+            <span class="topic-chip unselected">Space Exploration</span>
+            <span class="topic-chip unselected">Green Energy</span>
+            <span class="topic-chip unselected">Biotech</span>
+            <span class="topic-chip unselected">Cybersecurity</span>
+            <span class="topic-chip unselected">SaaS</span>
+            <span class="topic-chip unselected">Fintech</span>
+          </div>
+          <span class="topic-add">+ Add Custom Topic</span>
+        </div>
+        <!-- Communication -->
+        <div class="settings-card">
+          <div class="section-card-header" style="display:flex;align-items:center;gap:6px;">🔔 Communication & Digests</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:14px;">Choose how and when Prometheus delivers your tech intelligence reports.</p>
+          <div class="digest-item">
+            <div class="digest-check on">✓</div>
+            <div style="flex:1;"><div class="digest-title">Daily Morning Intelligence</div><div class="digest-desc">Receive a curated summary of yesterday's top 5 breakthroughs at 8:00 AM.</div></div>
+            <span class="digest-badge db-email">Email</span>
+          </div>
+          <div class="digest-item">
+            <div class="digest-check off"></div>
+            <div style="flex:1;"><div class="digest-title">Weekly Radar Roundup</div><div class="digest-desc">Comprehensive Sunday report on deep-tech trends and sentiment shifts.</div></div>
+            <span class="digest-badge db-inapp">In-App</span>
+          </div>
+          <div class="digest-item">
+            <div class="digest-check on">✓</div>
+            <div style="flex:1;"><div class="digest-title">Critical Breakthrough Alerts</div><div class="digest-desc">Instant notifications for major funding rounds or significant research leaps.</div></div>
+            <span class="digest-badge db-push">Push</span>
+          </div>
+          <button class="save-btn">Save Preference Changes</button>
+        </div>
+        <!-- Research history -->
+        <div class="settings-card full">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <div class="section-card-header" style="margin:0;display:flex;align-items:center;gap:6px;">🔄 Research History</div>
+            <span class="view-all-bk" onclick="showScreen('bookmarks')">View All Bookmarks ›</span>
+          </div>
+          <div class="research-history-grid">
+            <div class="rh-thumb ai3"><span class="rh-label" style="background:rgba(59,110,245,.3);color:#93c5fd;">AI</span><span class="rh-title">The Rise of LLM Agents in Autonomous Enterprise Ops</span></div>
+            <div class="rh-thumb space"><span class="rh-label" style="background:rgba(139,92,246,.3);color:#c4b5fd;">Space</span><span class="rh-title">Starship Flight 5: What the Catch Means for Mars</span></div>
+            <div class="rh-thumb dev"><span class="rh-label" style="background:rgba(20,184,166,.3);color:#5eead4;">Dev</span><span class="rh-title">Developer Tools in 2025: The New Stack</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     VOICE MODAL
+════════════════════════════════ -->
+<div class="voice-overlay" id="voiceOverlay" onclick="closeVoiceOutside(event)">
+  <div class="voice-modal">
+    <button class="voice-close" onclick="closeVoice()">✕</button>
+    <div class="voice-listening">
+      <span class="voice-dot"></span><span class="voice-label">LISTENING...</span>
+    </div>
+    <div class="voice-bars">
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+    </div>
+    <div class="voice-query">"What are the most significant breakthroughs in quantum computing from this morning's news cycle?"</div>
+    <div class="voice-suggestions-label">SUGGESTED COMMANDS</div>
+    <div class="voice-suggestions">
+      <div class="voice-sug" onclick="closeVoice()">Trending in Space ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Robotics M&A news ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Regulation updates ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Top startup funding ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Summarise my bookmarks ›</div>
+    </div>
+  </div>
+</div>
+
+<script>
+      function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+    function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  if (!storedUser) {
+    alert("No user found. Please sign up.");
+    return;
+  }
+
+  if (email === storedUser.email && password === storedUser.password) {
+    localStorage.setItem("loggedIn", "true"); // session flag
+    showScreen('dashboard');
+  } else {
+    alert("Invalid email or password");
+  }
+}
+function signup() {
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  const confirm = document.getElementById('signup-confirm').value;
+
+  if (!name || !email || !password || !confirm) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (password !== confirm) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  // Save user in localStorage
+  const user = { name, email, password };
+  localStorage.setItem("user", JSON.stringify(user));
+
+  alert("Signup successful! Please login.");
+  showScreen('login');
+}
+window.onload = function () {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn === "true") {
+    showScreen('dashboard');
+  } else {
+    showScreen('login');
+  }
+};
+function logout() {
+  localStorage.removeItem("loggedIn");
+  showScreen('login');
+}
+  function openVoice() {
+    document.getElementById('voiceOverlay').classList.add('open');
+  }
+  function closeVoice() {
+    document.getElementById('voiceOverlay').classList.remove('open');
+  }
+  function closeVoiceOutside(e) {
+    if (e.target === document.getElementById('voiceOverlay')) closeVoice();
+  }
+  // topic chip toggle
+  document.querySelectorAll('.topic-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      chip.classList.toggle('unselected');
+    });
+  });
+  // bookmark filter toggle
+  document.querySelectorAll('.bk-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.bk-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  // digest checkbox toggle
+  document.querySelectorAll('.digest-check').forEach(chk => {
+    chk.addEventListener('click', () => {
+      chk.classList.toggle('on');
+      chk.classList.toggle('off');
+      chk.textContent = chk.classList.contains('on') ? '✓' : '';
+    });
+  });
+</script>
+</body>
+</html>
