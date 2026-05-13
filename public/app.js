@@ -417,12 +417,15 @@ const raw = article.content || article.description || "No content available.";
 // Split into paragraphs
 let paragraphs = raw
   .replace(/<[^>]*>/g, "") // remove broken html if any
-  .split(/(?<=[.!?])\s+/)
+ .split(/(?<=[.!?])\s+/)
+.slice(0, 80)
   .filter(p => p.trim().length > 40);
+  // remove duplicate paragraphs
+paragraphs = [...new Set(paragraphs)];
 
 // Create grouped long paragraphs
 let formatted = "";
-for (let i = 0; i < paragraphs.length; i += 4) {
+for (let i = 0; i < paragraphs.length; i += 3) {
   const group = paragraphs.slice(i, i + 4).join(" ");
 
   formatted += `
