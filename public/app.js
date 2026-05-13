@@ -11,7 +11,8 @@
 let allArticles    = [];
 let visibleCount   = 10;
 let currentArticle = null;
-
+let originalArticles = [];
+let filteredArticles = [];
 /* ================================================================
    SCREEN NAVIGATION
 ================================================================ */
@@ -315,7 +316,9 @@ async function loadArticles() {
       seen.add(k); return true;
     });
 
-    allArticles  = arts;
+  originalArticles = arts;
+filteredArticles = arts;
+allArticles = arts;
     visibleCount = 10;
     renderArticles();
   } catch (err) {
@@ -350,7 +353,9 @@ function renderArticles() {
     return;
   }
 
-  allArticles.slice(0, visibleCount).forEach(article => {
+  const list = filteredArticles.length ? filteredArticles : allArticles;
+
+list.slice(0, visibleCount).forEach(article => {
     const card = document.createElement("div");
     card.className = "feed-item";
     const img  = safeImg(article);
@@ -383,7 +388,12 @@ function renderArticles() {
   });
 
   const btn = document.getElementById("load-more");
-  if (btn) btn.classList.toggle("hidden", visibleCount >= allArticles.length);
+if (btn) {
+  btn.style.display =
+    visibleCount >= (filteredArticles.length || allArticles.length)
+      ? "none"
+      : "block";
+}
 }
 
 /* ================================================================
@@ -416,106 +426,30 @@ const raw = article.content || article.description || "No content available.";
 
 // Split into paragraphs
 let paragraphs = raw
-  .replace(/<[^>]*>/g, "") // remove broken html if any
- .split(/(?<=[.!?])\s+/)
-.slice(0, 80)
-  .filter(p => p.trim().length > 40);
+  .replace(/<[^>]*>/g, "")
+  .split(/(?<=[.!?])\s+/)
+  .filter(p => p.trim().length > 60);
   // remove duplicate paragraphs
 paragraphs = [...new Set(paragraphs)];
 
 // Create grouped long paragraphs
-let formatted = "";
-for (let i = 0; i < paragraphs.length; i += 3) {
-  const group = paragraphs.slice(i, i + 4).join(" ");
 
-  formatted += `
+let formatted = paragraphs
+  .slice(0, 25)
+  .map(p => `
     <p style="
-      margin-bottom:28px;
+      margin-bottom:20px;
       font-size:17px;
-      line-height:2;
+      line-height:1.9;
       color:#d6d6d6;
-      font-weight:400;
-      letter-spacing:0.2px;
     ">
-      ${group}
+      ${p}
     </p>
-  `;
-}
+  `)
+  .join("");
 
 // Auto headings every few paragraphs
-formatted = formatted.replace(
-  /(<p[^>]*>)/,
-  `
-  <div style="
-    font-size:32px;
-    font-weight:800;
-    color:white;
-    margin-bottom:30px;
-    line-height:1.3;
-  ">
-    ${article.title}
-  </div>
 
-  <div style="
-    font-size:22px;
-    font-weight:700;
-    color:white;
-    margin:35px 0 18px;
-  ">
-    Introduction
-  </div>
-
-  $1
-  `
-);
-
-formatted += `
-  <div style="
-    font-size:22px;
-    font-weight:700;
-    color:white;
-    margin:45px 0 20px;
-  ">
-    Industry Impact
-  </div>
-
-  <p style="
-    margin-bottom:28px;
-    font-size:17px;
-    line-height:2;
-    color:#d6d6d6;
-  ">
-    Artificial intelligence, cybersecurity,
-    robotics, and cloud computing continue
-    transforming industries globally.
-    Companies are heavily investing in
-    digital infrastructure and intelligent
-    automation systems to improve efficiency
-    and scalability.
-  </p>
-
-  <div style="
-    font-size:22px;
-    font-weight:700;
-    color:white;
-    margin:45px 0 20px;
-  ">
-    Future Outlook
-  </div>
-
-  <p style="
-    margin-bottom:20px;
-    font-size:17px;
-    line-height:2;
-    color:#d6d6d6;
-  ">
-    Experts believe next-generation AI systems,
-    semiconductor advancements, quantum computing,
-    and autonomous technologies will redefine
-    the future of digital ecosystems over the
-    coming years.
-  </p>
-`;
 
 document.getElementById("articleContent").innerHTML = `
   <div style="
@@ -581,7 +515,7 @@ function renderIntelHub(article) {
   }
 
   relatedEl.innerHTML = related.map((item, i) => `
-    <div class="intel-card" data-idx="${i}" style="cursor:pointer;">
+    <div class="intel-card" data-title="${item.title}" style="cursor:pointer;">
       <div class="intel-dot"></div>
       <div>
         <div class="intel-headline">${item.title}</div>
@@ -590,8 +524,12 @@ function renderIntelHub(article) {
     </div>`).join("");
 
   relatedEl.querySelectorAll(".intel-card").forEach(card => {
-    card.addEventListener("click", () => openArticle(related[+card.dataset.idx]));
+  card.addEventListener("click", () => {
+    const title = card.dataset.title;
+    const found = allArticles.find(a => a.title === title);
+    if (found) openArticle(found);
   });
+});
 }
 
 /* ================================================================
@@ -648,20 +586,40 @@ async function askArticleBot() {
 function setupSearch() {
   const box = document.getElementById("searchBox");
   if (!box) return;
+
   let timer;
-  box.addEventListener("input", e => {
+
+  box.addEventListener("input", (e) => {
     clearTimeout(timer);
+
     const q = e.target.value.trim();
+
     timer = setTimeout(async () => {
-      if (q.length < 2) { loadArticles(); return; }
       try {
-        // ↓ relative path
-        const res  = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+        // If search is cleared → restore original feed
+        if (q.length < 2) {
+          filteredArticles = originalArticles;
+          visibleCount = 10;
+          renderArticles();
+          return;
+        }
+
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
         const data = await res.json();
-        allArticles  = Array.isArray(data) ? data : [];
+
+        filteredArticles = Array.isArray(data) ? data : [];
+
         visibleCount = 10;
         renderArticles();
-      } catch (err) { console.error("Search:", err); }
+
+      } catch (err) {
+        console.error("Search error:", err);
+
+        // fallback → restore original feed
+        filteredArticles = originalArticles;
+        visibleCount = 10;
+        renderArticles();
+      }
     }, 350);
   });
 }
