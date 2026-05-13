@@ -424,30 +424,58 @@ function openArticle(article) {
 
 const raw = article.content || article.description || "No content available.";
 
-// Split into paragraphs
-let paragraphs = raw
-  .replace(/<[^>]*>/g, "")
+// Clean HTML
+let text = raw.replace(/<[^>]*>/g, "");
+
+// Split into sentences
+let sentences = text
   .split(/(?<=[.!?])\s+/)
-  .filter(p => p.trim().length > 60);
-  // remove duplicate paragraphs
-paragraphs = [...new Set(paragraphs)];
+  .filter(s => s.trim().length > 0);
 
-// Create grouped long paragraphs
+// Remove duplicates but preserve order
+sentences = [...new Set(sentences)];
 
-let formatted = paragraphs
-  .slice(0, 25)
-  .map(p => `
-    <p style="
-      margin-bottom:20px;
-      font-size:17px;
-      line-height:1.9;
-      color:#d6d6d6;
-    ">
-      ${p}
-    </p>
-  `)
-  .join("");
+// Group sentences into Wikipedia-style paragraphs
+const chunkSize = 5; // 4–6 sentences per section
 
+let sections = [];
+for (let i = 0; i < sentences.length; i += chunkSize) {
+  sections.push(sentences.slice(i, i + chunkSize));
+}
+
+// Generate Wikipedia-style HTML
+let formatted = sections.map((group, index) => {
+ const keywords = ["Overview", "Background", "Key Developments", "Impact", "Analysis", "Conclusion"];
+const heading = keywords[index] || `Section ${index + 1}`;
+
+  return `
+    <div style="margin-bottom:30px;">
+      
+      <h2 style="
+        font-size:20px;
+        margin:25px 0 10px;
+        color:#ffffff;
+        border-left:4px solid #3b6ef5;
+        padding-left:10px;
+      ">
+        ${heading}
+      </h2>
+
+      ${group.map(p => `
+        <p style="
+          font-size:16px;
+          line-height:1.9;
+          color:#d6d6d6;
+          text-align:justify;
+          margin-bottom:14px;
+        ">
+          ${p}
+        </p>
+      `).join("")}
+
+    </div>
+  `;
+}).join("");
 // Auto headings every few paragraphs
 
 
