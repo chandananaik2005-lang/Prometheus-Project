@@ -412,10 +412,118 @@ function openArticle(article) {
     `<img src="${img}" style="width:100%;height:420px;object-fit:cover;border-radius:20px;"
           onerror="this.onerror=null;this.src='https://picsum.photos/seed/tech/1200/500';">`;
 
-  const raw = article.content || article.description || "No content available.";
-  const fmt = raw.replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br>");
-  document.getElementById("articleContent").innerHTML =
-    `<div style="padding:25px 25px 40px;color:#ccc;line-height:1.9;font-size:15.5px;"><p>${fmt}</p></div>`;
+const raw = article.content || article.description || "No content available.";
+
+// Split into paragraphs
+let paragraphs = raw
+  .replace(/<[^>]*>/g, "") // remove broken html if any
+  .split(/(?<=[.!?])\s+/)
+  .filter(p => p.trim().length > 40);
+
+// Create grouped long paragraphs
+let formatted = "";
+for (let i = 0; i < paragraphs.length; i += 4) {
+  const group = paragraphs.slice(i, i + 4).join(" ");
+
+  formatted += `
+    <p style="
+      margin-bottom:28px;
+      font-size:17px;
+      line-height:2;
+      color:#d6d6d6;
+      font-weight:400;
+      letter-spacing:0.2px;
+    ">
+      ${group}
+    </p>
+  `;
+}
+
+// Auto headings every few paragraphs
+formatted = formatted.replace(
+  /(<p[^>]*>)/,
+  `
+  <div style="
+    font-size:32px;
+    font-weight:800;
+    color:white;
+    margin-bottom:30px;
+    line-height:1.3;
+  ">
+    ${article.title}
+  </div>
+
+  <div style="
+    font-size:22px;
+    font-weight:700;
+    color:white;
+    margin:35px 0 18px;
+  ">
+    Introduction
+  </div>
+
+  $1
+  `
+);
+
+formatted += `
+  <div style="
+    font-size:22px;
+    font-weight:700;
+    color:white;
+    margin:45px 0 20px;
+  ">
+    Industry Impact
+  </div>
+
+  <p style="
+    margin-bottom:28px;
+    font-size:17px;
+    line-height:2;
+    color:#d6d6d6;
+  ">
+    Artificial intelligence, cybersecurity,
+    robotics, and cloud computing continue
+    transforming industries globally.
+    Companies are heavily investing in
+    digital infrastructure and intelligent
+    automation systems to improve efficiency
+    and scalability.
+  </p>
+
+  <div style="
+    font-size:22px;
+    font-weight:700;
+    color:white;
+    margin:45px 0 20px;
+  ">
+    Future Outlook
+  </div>
+
+  <p style="
+    margin-bottom:20px;
+    font-size:17px;
+    line-height:2;
+    color:#d6d6d6;
+  ">
+    Experts believe next-generation AI systems,
+    semiconductor advancements, quantum computing,
+    and autonomous technologies will redefine
+    the future of digital ecosystems over the
+    coming years.
+  </p>
+`;
+
+document.getElementById("articleContent").innerHTML = `
+  <div style="
+    padding:40px;
+    background:#111;
+    border-radius:18px;
+    overflow:hidden;
+  ">
+    ${formatted}
+  </div>
+`;
 
   // Clear previous chat
   const chatBox = document.getElementById("chatMessages");

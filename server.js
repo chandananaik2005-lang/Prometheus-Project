@@ -174,33 +174,46 @@ function getImageFallback(article) {
    LONG ARTICLE GENERATOR
 ═══════════════════════════════════ */
 function generateLongArticle(article) {
-  const filler = `
-Technology is evolving rapidly worldwide.
 
-Artificial intelligence, robotics,
-cloud computing, semiconductors,
-and cybersecurity are transforming industries.
+  return `
+<h2>Introduction</h2>
 
-Businesses are investing heavily in
-AI infrastructure and automation systems.
+<p>
+${article.description || "Technology continues to evolve rapidly across industries worldwide."}
+</p>
 
-Consumers increasingly rely on intelligent
-applications and AI-powered services.
+<p>
+The latest developments in the technology sector are reshaping how businesses,
+consumers, and governments interact with digital systems. Artificial intelligence,
+automation, cloud computing, and cybersecurity remain major driving forces behind
+global innovation.
+</p>
+
+<h2>Major Industry Developments</h2>
+
+<p>
+Companies are increasingly investing in advanced AI infrastructure, data analytics,
+and machine learning systems to improve productivity and customer experiences.
+Several organizations are integrating intelligent automation into daily operations,
+allowing faster decision-making and scalable digital transformation.
+</p>
+
+<p>
+Experts believe the competition between leading technology firms will intensify
+as demand grows for AI-powered products, semiconductor technologies, and secure
+cloud platforms. Governments are also focusing heavily on regulations,
+privacy protection, and responsible AI deployment.
+</p>
+
+<h2>Future Outlook</h2>
+
+<p>
+The future of technology appears highly dynamic, with innovations expected in
+robotics, autonomous systems, quantum computing, and next-generation internet
+services. Analysts predict that emerging technologies will continue transforming
+global industries, economic models, and digital lifestyles over the next decade.
+</p>
 `;
-
-  let content = `
-${article.title}
-
-${article.description}
-`;
-
-  while (
-    content.split(" ").length < MIN_WORDS
-  ) {
-    content += filler;
-  }
-
-  return content;
 }
 
 /* ═══════════════════════════════════
