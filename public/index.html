@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prometheus – Tech Radar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen active" id="screen-login">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+  <div class="auth-card">
+    <h2>Welcome Back</h2>
+    <p class="auth-sub">Log in to your personalized tech intelligence dashboard.</p>
+    <div class="divider"><span>LOGIN</span></div>
+    <label class="field-label">Email address</label>
+    <input id="login-email" class="input-field" type="email" placeholder="name@company.com" required>
+    <label class="field-label">Password <a href="#">Forgot password?</a></label>
+    <input id="login-password" class="input-field" type="password" placeholder="••••••••" required>
+    <button class="btn-primary" onclick="login()">Log In</button>
+    <p class="auth-switch">Don't have an account? <a href="#" onclick="showScreen('signup'); return false;">Sign up free</a></p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SIGNUP SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen" id="screen-signup">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+  <div class="auth-card">
+    <h2>Create Your Account</h2>
+    <p class="auth-sub">Join thousands of tech professionals staying ahead of the curve.</p>
+    <div class="divider"><span>SIGNUP</span></div>
+    <label class="field-label">Full name</label>
+    <input id="signup-name" class="input-field" type="text" placeholder="Alexander Voss" required>
+    <label class="field-label">Work email</label>
+    <input id="signup-email" class="input-field" type="email" placeholder="name@company.com" required>
+    <label class="field-label">Password</label>
+    <input id="signup-password" class="input-field" type="password" placeholder="Min. 8 characters" required>
+    <label class="field-label">Confirm password</label>
+    <input id="signup-confirm" class="input-field" type="password" placeholder="Re-enter password" required>
+    <button class="btn-primary" onclick="signup()">Create Account</button>
+    <p class="auth-switch">Already have an account? <a href="#" onclick="showScreen('login'); return false;">Log in</a></p>
+  </div>
+  <div class="auth-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Help Center</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DASHBOARD
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-dashboard">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showScreen('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showScreen('analytics')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>
+        Analytics
+      </div>
+      <div class="nav-item" onclick="showScreen('bookmarks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Bookmarks
+      </div>
+      <div class="nav-item" onclick="showScreen('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="logout-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </div>
+    </div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <!-- FIX: added id="searchBox" so setupSearch() can find the input -->
+        <input id="searchBox" type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right">
+        <div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <!-- FIX: avatar initials set dynamically by loadUserProfile() -->
+        <div class="avatar" id="topbarAvatar">?</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="feature-cards">
+        <div class="feature-card blue" onclick="showScreen('article')">
+          <div class="feature-card-tag">Market Intelligence</div>
+          <h3>From LLMs to Multimodal Models</h3>
+          <p>Multi-modal reasoning is becoming the baseline. 85% of enterprises now prioritize vision-and-voice integration.</p>
+          <div class="deep-dive">Deep Dive →</div>
+        </div>
+        <div class="feature-card teal" onclick="showScreen('article')">
+          <div class="feature-card-tag">Policy Radar</div>
+          <h3>Autonomous Robotics Regulation 2024</h3>
+          <p>New EU directives mandate 'kill-switches' for industrial cobots. Implications for factory automation costs are...</p>
+          <div class="deep-dive">Deep Dive →</div>
+        </div>
+      </div>
+
+      <div class="feed-section">
+        <div>
+          <div class="feed-header">
+            <h3>Intelligence Feed</h3>
+            <span class="badge">Live</span>
+          </div>
+          <div id="news-container"></div>
+          <div id="load-more" onclick="loadMoreArticles()">Load More Intelligence →</div>
+        </div>
+
+        <div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">📈 Trending Radar</div>
+              <span class="widget-see-all">See all</span>
+            </div>
+            <div class="trend-item"><div><div class="trend-name">LLM Orchestration</div><div class="trend-count">2.4k news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Quantum Supremacy</div><div class="trend-count">1.1k news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Sovereign Intelligence</div><div class="trend-count">850 news</div></div><span class="trend-arrow">↗</span></div>
+            <div class="trend-item"><div><div class="trend-name">Spatial Computing</div><div class="trend-count">2.1k news</div></div><span class="trend-arrow">↗</span></div>
+          </div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">✨ Prompt Prometheus</div>
+            </div>
+            <div class="prompt-item">Summarize today's breakthroughs <span>›</span></div>
+            <div class="prompt-item">Find funding news in Robotics <span>›</span></div>
+            <div class="prompt-item">Explain latest NVIDIA results <span>›</span></div>
+            <div class="prompt-item">Analyze sentiment on Web3 <span>›</span></div>
+            <div class="prompt-note">Assistant is ready to synthesize context from your feed.</div>
+          </div>
+          <div class="widget">
+            <div class="widget-header">
+              <div class="widget-title">Source Trust Index</div>
+            </div>
+            <div class="trust-table">
+              <div class="trust-row"><span class="trust-pub">TechCrunch</span><span class="trust-val">98%</span></div>
+              <div class="trust-row"><span class="trust-pub">The Verge</span><span class="trust-val">94%</span></div>
+              <div class="trust-row"><span class="trust-pub">Ars Technica</span><span class="trust-val">99%</span></div>
+              <div class="trust-row"><span class="trust-pub">VentureBeat</span><span class="trust-val">91%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Voice FAB -->
+  <div style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:40;box-shadow:0 4px 20px rgba(59,110,245,.4);" onclick="openVoice()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ARTICLE VIEW
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-article">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right">
+        <div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="avatar" id="articleAvatar2">?</div>
+      </div>
+    </div>
+    <div class="article-layout">
+      <!-- article body -->
+      <div class="article-body">
+        <div class="article-cat-badge" id="articleCategory">AI</div>
+        <h1 id="articleTitle">Loading...</h1>
+        <div class="article-meta">
+          <!-- FIX: articleAvatar is a div, not a text node – use textContent safely -->
+          <div class="article-author-avatar" id="articleAvatarIcon">AI</div>
+          <div>
+            <div class="article-author-name" id="articleAuthor">AI Generator</div>
+            <div class="article-date" id="articleDate">Loading...</div>
+          </div>
+          <div class="article-actions">
+            <div class="article-action-btn" onclick="bookmarkCurrentArticle()" title="Bookmark">🔖</div>
+            <div class="article-action-btn" onclick="shareCurrentArticle()" title="Share">↗</div>
+          </div>
+        </div>
+        <div class="article-hero" id="articleImage">🧠</div>
+        <div id="articleContent"></div>
+      </div>
+      <!-- intel hub with chatbot -->
+      <div class="intel-hub" id="intelHub">
+        <!-- AI Summary Section -->
+        <div class="intel-wrapper">
+          <div class="intel-main">
+            <div class="intel-title">🤖 AI Summary</div>
+            <div class="intel-summary" id="aiSummary">
+              Loading AI-powered summary...
+            </div>
+          </div>
+        </div>
+
+        <!-- Chatbot Section -->
+        <div class="chat-section">
+          <div class="chat-label">
+            <span class="live-dot"></span>
+            Ask Prometheus AI
+          </div>
+          <div id="chatMessages" style="max-height:260px;overflow-y:auto;margin-bottom:12px;"></div>
+          <div class="chat-suggestions">
+            <div class="chat-sug" onclick="quickAsk('Summarise this article')">Summarise →</div>
+            <div class="chat-sug" onclick="quickAsk('What are the key takeaways?')">Key takeaways →</div>
+            <div class="chat-sug" onclick="quickAsk('What companies are mentioned?')">Companies →</div>
+          </div>
+          <div class="chat-input-row">
+            <input id="chatInput" class="chat-input" type="text" placeholder="Ask anything about this article..." onkeydown="if(event.key==='Enter') askArticleBot()">
+            <button class="chat-send" onclick="askArticleBot()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Related Intel Section -->
+        <div class="intel-related">
+          <div class="intel-subtitle">📡 Related Intelligence</div>
+          <div id="relatedIntel">
+            <div class="intel-card">
+              <div class="intel-dot"></div>
+              <div>
+                <div class="intel-headline">Loading related articles...</div>
+                <div class="intel-meta">Analyzing content...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ANALYTICS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-analytics">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item active" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right"><div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">AV</div></div>
+    </div>
+    <div class="page-content">
+      <div class="analytics-header">
+        <div><h2>Analytics Hub</h2><p>Real-time intelligence and sentiment tracking across the global tech landscape.</p></div>
+        <div class="analytics-btns"><button class="btn-outline">Export Report</button><button class="btn-accent-sm">Intelligence Report</button></div>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card"><span class="stat-trend up">+12.5%</span><div class="stat-label">Positive Sentiment</div><div class="stat-value">68%</div></div>
+        <div class="stat-card"><span class="stat-trend" style="background:rgba(160,160,160,.1);color:var(--text3);">-2.1%</span><div class="stat-label">Neutral Volume</div><div class="stat-value">24%</div></div>
+        <div class="stat-card"><span class="stat-trend down">-5.4%</span><div class="stat-label">Negative Outlook</div><div class="stat-value">8%</div></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h4>Market Velocity</h4>
+          <p>Topic mention frequency over the last 6 months</p>
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 500 160" preserveAspectRatio="none">
+              <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b6ef5" stop-opacity=".3"/><stop offset="100%" stop-color="#3b6ef5" stop-opacity="0"/></linearGradient></defs>
+              <line x1="0" y1="20" x2="500" y2="20" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="55" x2="500" y2="55" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="90" x2="500" y2="90" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="125" x2="500" y2="125" stroke="#2a2a2a" stroke-width="1"/>
+              <text x="0" y="18" fill="#555" font-size="10">8500</text>
+              <text x="0" y="53" fill="#555" font-size="10">6600</text>
+              <text x="0" y="88" fill="#555" font-size="10">4700</text>
+              <text x="0" y="123" fill="#555" font-size="10">2800</text>
+              <path d="M30,130 C100,115 200,90 300,60 C380,35 440,20 480,10" fill="none" stroke="#3b6ef5" stroke-width="2.5"/>
+              <path d="M30,140 C100,135 200,128 300,115 C380,105 440,95 480,88" fill="none" stroke="#22c55e" stroke-width="2"/>
+              <path d="M30,145 C100,143 200,140 300,135 C380,130 440,127 480,125" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <path d="M30,150 C100,149 200,148 300,145 C380,143 440,141 480,138" fill="none" stroke="#eab308" stroke-width="2"/>
+              <text x="30" y="158" fill="#555" font-size="10">Jan</text>
+              <text x="120" y="158" fill="#555" font-size="10">Feb</text>
+              <text x="210" y="158" fill="#555" font-size="10">Mar</text>
+              <text x="300" y="158" fill="#555" font-size="10">Apr</text>
+              <text x="390" y="158" fill="#555" font-size="10">May</text>
+              <text x="465" y="158" fill="#555" font-size="10">Jun</text>
+            </svg>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;">
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#3b6ef5;display:inline-block;"></span><span style="color:var(--text3)">AI &amp; ML</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span><span style="color:var(--text3)">Robotics</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span><span style="color:var(--text3)">Space Tech</span></span>
+            <span style="font-size:11px;display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#eab308;display:inline-block;"></span><span style="color:var(--text3)">Quantum</span></span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4>Focus Distribution</h4>
+          <p>Share of mentions by tech sub-sector</p>
+          <div class="donut-wrap">
+            <svg class="donut-svg" viewBox="0 0 130 130">
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#1e1e1e" stroke-width="22"/>
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#3b6ef5" stroke-width="22" stroke-dasharray="141.3 314" stroke-dashoffset="0" transform="rotate(-90 65 65)"/>
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#22c55e" stroke-width="22" stroke-dasharray="78.5 314" stroke-dashoffset="-141.3" transform="rotate(-90 65 65)"/>
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#ef4444" stroke-width="22" stroke-dasharray="47.1 314" stroke-dashoffset="-219.8" transform="rotate(-90 65 65)"/>
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#eab308" stroke-width="22" stroke-dasharray="31.4 314" stroke-dashoffset="-266.9" transform="rotate(-90 65 65)"/>
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#14b8a6" stroke-width="22" stroke-dasharray="15.7 314" stroke-dashoffset="-298.3" transform="rotate(-90 65 65)"/>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#3b6ef5"></div><span class="legend-name">Generative Systems</span><span class="legend-pct">45%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div><span class="legend-name">LLMs</span><span class="legend-pct">25%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div><span class="legend-name">Robotics</span><span class="legend-pct">15%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div><span class="legend-name">Cybersecurity</span><span class="legend-pct">10%</span></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div><span class="legend-name">Web3</span><span class="legend-pct">5%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="influencers-card">
+        <h4>Top Market Influencers</h4>
+        <p>Companies and projects seeing the highest engagement surge</p>
+        <table class="influencer-table">
+          <thead><tr><th>Entity</th><th>Industry Segment</th><th>Total Mentions</th><th>Sentiment Index</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e3a8a,#7c3aed)">O</div><div><div class="entity-name">OpenAI</div><div class="entity-id">ID: PRM-1092</div></div></div></td><td style="color:var(--text2);font-size:13px;">Software</td><td style="color:var(--text2);font-size:13px;">124.5k</td><td><div class="sent-bar-wrap"><div class="sent-bar" style="width:88px"></div><span style="font-size:12px;color:var(--text2)">88%</span></div></td><td><span class="explore-link">Explore ↗</span></td></tr>
+            <tr><td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e4030,#065f46)">N</div><div><div class="entity-name">NVIDIA</div><div class="entity-id">ID: PRM-2092</div></div></div></td><td style="color:var(--text2);font-size:13px;">Hardware</td><td style="color:var(--text2);font-size:13px;">98.2k</td><td><div class="sent-bar-wrap"><div class="sent-bar" style="width:92px"></div><span style="font-size:12px;color:var(--text2)">92%</span></div></td><td><span class="explore-link">Explore ↗</span></td></tr>
+            <tr><td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#134e4a,#0d9488)">M</div><div><div class="entity-name">Mistral</div><div class="entity-id">ID: PRM-3092</div></div></div></td><td style="color:var(--text2);font-size:13px;">Open Source</td><td style="color:var(--text2);font-size:13px;">45.1k</td><td><div class="sent-bar-wrap"><div class="sent-bar" style="width:76px;background:#22c55e"></div><span style="font-size:12px;color:var(--text2)">76%</span></div></td><td><span class="explore-link">Explore ↗</span></td></tr>
+            <tr><td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#451a03,#92400e)">A</div><div><div class="entity-name">Anthropic</div><div class="entity-id">ID: PRM-4092</div></div></div></td><td style="color:var(--text2);font-size:13px;">Safety</td><td style="color:var(--text2);font-size:13px;">38.9k</td><td><div class="sent-bar-wrap"><div class="sent-bar" style="width:81px"></div><span style="font-size:12px;color:var(--text2)">81%</span></div></td><td><span class="explore-link">Explore ↗</span></td></tr>
+            <tr><td><div class="entity-cell"><div class="entity-avatar" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">T</div><div><div class="entity-name">Tesla</div><div class="entity-id">ID: PRM-5092</div></div></div></td><td style="color:var(--text2);font-size:13px;">Automotive</td><td style="color:var(--text2);font-size:13px;">31.2k</td><td><div class="sent-bar-wrap"><div class="sent-bar" style="width:42px;background:#eab308"></div><span style="font-size:12px;color:var(--text2)">42%</span></div></td><td><span class="explore-link">Explore ↗</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bottom-cards">
+        <div class="bottom-card"><div class="bottom-card-icon">💬</div><h4>Social Discourse Summary</h4><p>Discussions around <span class="highlight">Generative Video</span> have surged by 240% this week following several major model releases.</p><a>Read full breakdown →</a></div>
+        <div class="bottom-card"><div class="bottom-card-icon">🚀</div><h4>Emerging Breakthroughs</h4><p><span class="highlight2">Solid-state battery technology</span> mentions reached a 12-month high. Investors are pivoting interest to high-density energy storage startups.</p><a>View emerging tech radar →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     BOOKMARKS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-bookmarks">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item active" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="filter-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Filters</div>
+      <div class="topbar-right"><div class="notif-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">AV</div></div>
+    </div>
+    <div class="page-content">
+      <div class="bk-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span style="font-size:20px;">🔖</span><h2 style="font-size:28px;font-weight:800;margin:0;">Intelligence Library</h2></div>
+          <p style="color:var(--text2);font-size:14px;">Manage and revisit your curated tech insights.</p>
+        </div>
+        <div class="bk-actions"><button class="btn-outline" style="font-size:12px;">↑↓ Sort: Recency</button><button class="btn-outline" style="font-size:12px;">◎ Select</button></div>
+      </div>
+      <div class="bk-stats">
+        <div><div class="bk-stat-num">42</div><div class="bk-stat-label">Saved Articles</div></div>
+        <div><div class="bk-stat-num blue">12</div><div class="bk-stat-label">Unread</div></div>
+        <div><div class="bk-stat-num green">5</div><div class="bk-stat-label">Shared</div></div>
+      </div>
+      <div class="bk-filters">
+        <button class="bk-filter active">All</button>
+        <button class="bk-filter">Generative</button>
+        <button class="bk-filter">Robotics</button>
+        <button class="bk-filter">Web3</button>
+        <button class="bk-filter">Quantum Computing</button>
+        <button class="bk-filter">Sustainability</button>
+      </div>
+      <div class="bk-item" onclick="showScreen('article')"><div class="bk-thumb ai2">🤖</div><div class="bk-info"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">The Rise of Agentic Systems: Why LLMs are moving beyond chat</div><span class="bk-tag gen-ai">Generative</span></div><div class="bk-desc">An exploration of how autonomous agents are redefining the productivity landscape.</div><div class="bk-meta"><span>Saved 2 days ago</span><span>·</span><span>8 min read</span></div></div><span class="bk-ext">↗</span></div>
+      <div class="bk-item" onclick="showScreen('article')"><div class="bk-thumb bio">🧬</div><div class="bk-info"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Neuralink Update: Successful second human implant progress</div><span class="bk-tag robotics">Robotics</span></div><div class="bk-desc">Deep dive into the latest clinical results from Brain-Computer Interface trials.</div><div class="bk-meta"><span>Saved 5 days ago</span><span>·</span><span>12 min read</span></div></div><span class="bk-ext">↗</span></div>
+      <div class="bk-item" onclick="showScreen('article')"><div class="bk-thumb sust">🔋</div><div class="bk-info"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="bk-title">Solid-State Battery Breakthrough: 1000km range EVs</div><span class="bk-tag sust2">Sustainability</span></div><div class="bk-desc">Toyota and QuantumScape announce milestones in mass production viability.</div><div class="bk-meta"><span>Saved 1 week ago</span><span>·</span><span>6 min read</span></div></div><span class="bk-ext">↗</span></div>
+      <div class="bk-end">You've reached the end of your library.<br><span class="bk-discover" onclick="showScreen('dashboard')">Discover more trends</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SETTINGS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-settings">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item active" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="page-content">
+      <div class="settings-header"><h2>Account &amp; Preferences</h2></div>
+      <div class="settings-grid">
+
+        <!-- PROFILE CARD -->
+        <div class="settings-card">
+          <div class="profile-center">
+            <div class="profile-avatar" id="profileAvatar">U<div class="profile-online"></div></div>
+            <div class="profile-name" id="profileName">User Name</div>
+            <div class="profile-email" id="profileEmail">user@email.com</div>
+          </div>
+          <button class="signout-btn" onclick="logout()">↗ Sign Out of Prometheus</button>
+        </div>
+
+        <!-- PREFERENCES CARD -->
+        <div class="settings-card">
+          <div class="section-card-header">⚙️ Preferences</div>
+          <div class="setting-row">
+            <div><div class="setting-label">Dark Mode</div><div class="setting-desc">Toggle light/dark theme</div></div>
+            <label class="toggle-switch"><input type="checkbox" id="themeToggle"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">Email Notifications</div><div class="setting-desc">Receive updates via email</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">Push Notifications</div><div class="setting-desc">Get instant alerts</div></div>
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <!-- PASSWORD CARD -->
+        <div class="settings-card">
+          <h4 class="section-card-header">Change Password</h4>
+          <input type="password" id="currentPass" placeholder="Current Password" class="password-input">
+          <input type="password" id="newPass" placeholder="New Password" class="password-input">
+          <input type="password" id="confirmPass" placeholder="Confirm Password" class="password-input">
+          <button class="btn-primary" id="updatePasswordBtn">Update Password</button>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="settings-card">
+          <div class="danger-zone">
+            <div class="danger-title">Danger Zone</div>
+            <div class="danger-text">Deleting your account is permanent and cannot be undone.</div>
+            <button class="delete-btn" id="deleteAccountBtn">Delete Account</button>
+          </div>
+        </div>
+
+        <!-- COMMUNICATION -->
+        <div class="settings-card">
+          <div class="section-card-header">🔔 Communication &amp; Digests</div>
+          <div class="digest-item">
+            <div class="digest-check on">✓</div>
+            <div>Daily Morning Intelligence</div>
+          </div>
+        </div>
+
+        <!-- RESEARCH HISTORY -->
+        <div class="settings-card full">
+          <div class="section-card-header">🔄 Research History</div>
+          <div id="researchHistory" class="research-history-grid"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     VOICE MODAL
+════════════════════════════════ -->
+<div class="voice-overlay" id="voiceOverlay" onclick="closeVoiceOutside(event)">
+  <div class="voice-modal">
+    <button class="voice-close" onclick="closeVoice()">✕</button>
+    <div class="voice-listening">
+      <span class="voice-dot"></span><span class="voice-label">LISTENING...</span>
+    </div>
+    <div class="voice-bars">
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+    </div>
+    <div class="voice-query">"What are the most significant breakthroughs in quantum computing from this morning's news cycle?"</div>
+    <div class="voice-suggestions-label">SUGGESTED COMMANDS</div>
+    <div class="voice-suggestions">
+      <div class="voice-sug" onclick="closeVoice()">Trending in Space ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Robotics M&amp;A news ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Regulation updates ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Top startup funding ›</div>
+      <div class="voice-sug" onclick="closeVoice()">Summarise my bookmarks ›</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   STATE
+================================================================ */
+let allArticles   = [];
+let visibleCount  = 10;
+let currentArticle = null;  // FIX: was window.currentArticle (inconsistent)
+
+/* ================================================================
+   SCREEN NAVIGATION
+================================================================ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+
+  // Update sidebar active state
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'" + id + "'")) {
+      item.classList.add('active');
+    }
+  });
+
+  if (id === 'settings') {
+    loadUserProfile();
+    loadResearchHistory();
+  }
+}
+
+/* ================================================================
+   AUTH – LOGIN
+================================================================ */
+function login() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  if (!email || !password) { alert('Please fill in all fields.'); return; }
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  if (!storedUser) { alert('No account found. Please sign up.'); return; }
+
+  if (email === storedUser.email && password === storedUser.password) {
+    sessionStorage.setItem('loggedIn', 'true');
+    loadUserProfile();
+    showScreen('dashboard');
+    loadArticles();
+  } else {
+    alert('Invalid email or password.');
+  }
+}
+
+/* ================================================================
+   AUTH – SIGNUP
+================================================================ */
+function signup() {
+  const name     = document.getElementById('signup-name').value.trim();
+  const email    = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const confirm  = document.getElementById('signup-confirm').value;
+
+  if (!name || !email || !password || !confirm) { alert('Please fill all fields.'); return; }
+  if (password !== confirm) { alert('Passwords do not match.'); return; }
+  if (password.length < 8) { alert('Password must be at least 8 characters.'); return; }
+
+  localStorage.setItem('user', JSON.stringify({ name, email, password }));
+  alert('Account created! Please log in.');
+  showScreen('login');
+}
+
+/* ================================================================
+   AUTH – LOGOUT  (FIX: only one definition, clears sessionStorage)
+================================================================ */
+function logout() {
+  sessionStorage.removeItem('loggedIn');
+  showScreen('login');
+}
+
+/* ================================================================
+   VOICE MODAL
+================================================================ */
+function openVoice()  { document.getElementById('voiceOverlay').classList.add('open'); }
+function closeVoice() { document.getElementById('voiceOverlay').classList.remove('open'); }
+function closeVoiceOutside(e) { if (e.target === document.getElementById('voiceOverlay')) closeVoice(); }
+
+/* ================================================================
+   USER PROFILE
+================================================================ */
+function loadUserProfile() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) return;
+
+  // FIX: set textContent to avoid overwriting the child .profile-online div
+  const avatarEl = document.getElementById('profileAvatar');
+  if (avatarEl) {
+    // only update the text node, not the child <div>
+    avatarEl.childNodes[0].nodeValue = user.name.charAt(0).toUpperCase();
+  }
+
+  const nameEl  = document.getElementById('profileName');
+  const emailEl = document.getElementById('profileEmail');
+  if (nameEl)  nameEl.textContent  = user.name;
+  if (emailEl) emailEl.textContent = user.email;
+
+  // topbar avatar
+  const topbarAv = document.getElementById('topbarAvatar');
+  if (topbarAv) topbarAv.textContent = user.name.substring(0, 2).toUpperCase();
+}
+
+/* ================================================================
+   BOOKMARKS
+================================================================ */
+function saveBookmark(title, category) {
+  const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+  bookmarks.push({ title, category, savedAt: Date.now() });
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+}
+
+function bookmarkCurrentArticle() {
+  if (!currentArticle) return;
+  saveBookmark(currentArticle.title, currentArticle.category || 'Technology');
+  alert('Article bookmarked! ✅');
+}
+
+function shareCurrentArticle() {
+  if (!currentArticle) return;
+  if (navigator.share) {
+    navigator.share({ title: currentArticle.title, text: currentArticle.description || '' });
+  } else {
+    navigator.clipboard?.writeText(window.location.href);
+    alert('Link copied to clipboard!');
+  }
+}
+
+function loadResearchHistory() {
+  const container = document.getElementById('researchHistory');
+  if (!container) return;
+
+  const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+  container.innerHTML = '';
+
+  if (!bookmarks.length) {
+    container.innerHTML = '<p style="color:var(--text3);font-size:13px;">No research history yet.</p>';
+    return;
+  }
+
+  bookmarks.slice(-6).reverse().forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'rh-thumb';
+    div.style.background = 'linear-gradient(135deg,#1e3a8a,#7c3aed)';
+    div.innerHTML = `
+      <span class="rh-label">${item.category || 'Tech'}</span>
+      <span class="rh-title">${item.title}</span>
+    `;
+    container.appendChild(div);
+  });
+}
+
+/* ================================================================
+   THEME TOGGLE
+================================================================ */
+function initTheme() {
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    toggle.checked = true;
+  }
+
+  toggle.addEventListener('change', () => {
+    if (toggle.checked) {
+      document.body.classList.add('light-mode');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+}
+
+/* ================================================================
+   PASSWORD UPDATE
+================================================================ */
+function initPasswordUpdate() {
+  const btn = document.getElementById('updatePasswordBtn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    const current = document.getElementById('currentPass').value;
+    const newP    = document.getElementById('newPass').value;
+    const confirm = document.getElementById('confirmPass').value;
+
+    // FIX: compare against stored user.password, not separate userPassword key
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) { alert('No user found.'); return; }
+
+    if (current !== user.password) { alert('Current password is incorrect ❌'); return; }
+    if (newP !== confirm)          { alert('New passwords do not match ❌'); return; }
+    if (newP.length < 6)           { alert('Password must be at least 6 characters ⚠️'); return; }
+
+    user.password = newP;
+    localStorage.setItem('user', JSON.stringify(user));
+    alert('Password updated successfully ✅');
+    document.getElementById('currentPass').value = '';
+    document.getElementById('newPass').value     = '';
+    document.getElementById('confirmPass').value = '';
+  });
+}
+
+/* ================================================================
+   DELETE ACCOUNT
+================================================================ */
+function initDeleteAccount() {
+  const btn = document.getElementById('deleteAccountBtn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+      localStorage.clear();
+      sessionStorage.clear();
+      alert('Account deleted.');
+      location.reload();
+    }
+  });
+}
+
+/* ================================================================
+   IMAGE HELPER
+================================================================ */
+function getTopicImage(article) {
+  const text = ((article.title || '') + ' ' + (article.description || '')).toLowerCase();
+  let kw = 'technology';
+  if (text.includes('ai'))        kw = 'artificial-intelligence';
+  else if (text.includes('iphone') || text.includes('apple')) kw = 'iphone';
+  else if (text.includes('android')) kw = 'android';
+  else if (text.includes('tesla') || text.includes(' ev ')) kw = 'electric-car';
+  else if (text.includes('space'))   kw = 'space';
+  else if (text.includes('robot'))   kw = 'robotics';
+  else if (text.includes('chip'))    kw = 'microchip';
+  else if (text.includes('startup')) kw = 'startup';
+  else if (text.includes('cyber'))   kw = 'cybersecurity';
+  else if (text.includes('nvidia'))  kw = 'gpu';
+  return `https://picsum.photos/seed/${kw}${Math.floor(Math.random()*9999)}/600/400`;
+}
+
+/* ================================================================
+   FILTERS
+================================================================ */
+function isEnglish(text) {
+  if (!text) return false;
+  const eng = (text.match(/[a-zA-Z]/g) || []).length;
+  return eng > text.length * 0.45;
+}
+
+function isTechArticle(article) {
+  const text = ((article.title||'') + ' ' + (article.description||'') + ' ' + (article.content||'')).toLowerCase();
+  const kws = ['ai','artificial intelligence','technology','robot','robotics','startup','software','hardware',
+    'chip','nvidia','amd','intel','microsoft','google','apple','iphone','android','tesla','cybersecurity',
+    'cloud','openai','meta','gpu','computer','internet','programming','quantum','automation'];
+  return kws.some(k => text.includes(k));
+}
+
+/* ================================================================
+   TIME HELPER
+================================================================ */
+function getDynamicTime(originalDate) {
+  const now = new Date();
+  const mins = Math.floor(Math.random() * 180) + 1;
+  const fakeDate = new Date(now.getTime() - mins * 60 * 1000);
+  const diff = Math.floor((now - fakeDate) / 60000);
+  if (diff < 60) return `${diff} min ago`;
+  const h = Math.floor(diff / 60);
+  if (h < 24) return `${h} hr ago`;
+  return fakeDate.toLocaleDateString();
+}
+
+/* ================================================================
+   OPEN ARTICLE
+================================================================ */
+function openArticle(article) {
+  currentArticle = article;  // FIX: use module-level var, not window.currentArticle
+  showScreen('article');
+
+  document.getElementById('articleTitle').textContent    = article.title || 'Untitled';
+  document.getElementById('articleCategory').textContent = article.category || 'Technology';
+  document.getElementById('articleAuthor').textContent   = article.source || 'Prometheus AI';
+  document.getElementById('articleDate').textContent     = getDynamicTime(article.published_at);
+  document.getElementById('articleAvatarIcon').textContent = (article.source || 'AI').substring(0, 2).toUpperCase();
+
+  const safeImg = article.image_url?.startsWith('http') ? article.image_url : getTopicImage(article);
+  document.getElementById('articleImage').innerHTML =
+    `<img src="${safeImg}" style="width:100%;height:420px;object-fit:cover;border-radius:20px;" onerror="this.onerror=null;this.src='https://picsum.photos/1200/500';">`;
+
+  const content = article.content || article.description || 'No content available.';
+  document.getElementById('articleContent').innerHTML =
+    `<div style="padding:25px;color:#ddd;line-height:1.9;font-size:16px;">${content}</div>`;
+
+  // clear chat
+  const chatBox = document.getElementById('chatMessages');
+  if (chatBox) chatBox.innerHTML = '';
+
+  renderIntelHub(article);
+}
+
+/* ================================================================
+   LOAD ARTICLES
+================================================================ */
+async function loadArticles() {
+  const container = document.getElementById('news-container');
+  if (!container) return;
+
+  container.innerHTML = '<div class="loader">Loading intelligence feed...</div>';
+
+  try {
+    const res = await fetch(`/api/articles?t=${Date.now()}`);
+    if (!res.ok) throw new Error('Server error ' + res.status);
+
+    let data = await res.json();
+    let articles = Array.isArray(data) ? data : data.articles || [];
+
+    // Filter
+    articles = articles.filter(a => a.title && a.description && isEnglish(a.title) && isTechArticle(a));
+
+    // Deduplicate
+    const seen = new Set();
+    articles = articles.filter(a => {
+      const k = a.title.toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    // Shuffle
+    articles.sort(() => Math.random() - 0.5);
+
+    allArticles  = articles;
+    visibleCount = 10;
+    renderArticles();
+
+  } catch (err) {
+    console.error('loadArticles:', err);
+    container.innerHTML = `<div style="color:#ef4444;padding:20px;">⚠️ Could not load feed. Make sure the server is running on port 5000.<br><small>${err.message}</small></div>`;
+  }
+}
+
+/* ================================================================
+   RENDER ARTICLES
+================================================================ */
+function renderArticles() {
+  const container = document.getElementById('news-container');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (!allArticles.length) {
+    container.innerHTML = '<div style="color:#888;padding:20px;">No articles available.</div>';
+    return;
+  }
+
+  allArticles.slice(0, visibleCount).forEach(article => {
+    const card = document.createElement('div');
+    card.className = 'feed-item';
+
+    const safeImg = article.image_url?.startsWith('http') ? article.image_url : getTopicImage(article);
+
+    card.innerHTML = `
+      <div class="feed-card-exact">
+        <div class="feed-left-box">
+          <img class="feed-thumb-exact" src="${safeImg}"
+            onerror="this.onerror=null;this.src='https://picsum.photos/seed/tech/600/400';">
+        </div>
+        <div class="feed-right">
+          <div class="feed-meta">
+            <span class="feed-brand">${article.source || 'Prometheus'}</span>
+            <span class="feed-sep">•</span>
+            <span class="feed-age">${getDynamicTime(article.published_at)}</span>
+          </div>
+          <div class="feed-headline">${article.title || 'Untitled'}</div>
+          <div class="feed-desc">${article.description || ''}</div>
+          <div class="feed-pill-row"><span>#Technology</span></div>
+        </div>
+      </div>`;
+
+    card.onclick = () => openArticle(article);
+    container.appendChild(card);
+  });
+
+  const loadBtn = document.getElementById('load-more');
+  if (loadBtn) {
+    loadBtn.classList.toggle('hidden', visibleCount >= allArticles.length);
+  }
+}
+
+/* ================================================================
+   LOAD MORE
+================================================================ */
+function loadMoreArticles() {
+  visibleCount += 10;
+  renderArticles();
+}
+
+/* ================================================================
+   SEARCH
+================================================================ */
+function setupSearch() {
+  const searchBox = document.getElementById('searchBox');
+  if (!searchBox) return;
+
+  let timer;
+  searchBox.addEventListener('input', e => {
+    const q = e.target.value.trim();
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      if (q.length < 2) { loadArticles(); return; }
+      try {
+        const res  = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+        let data   = await res.json();
+        let arts   = Array.isArray(data) ? data : data.articles || [];
+        arts = arts.filter(a => a.title && a.description && isEnglish(a.title) && isTechArticle(a));
+        allArticles  = arts;
+        visibleCount = 10;
+        renderArticles();
+      } catch (err) { console.error('Search error:', err); }
+    }, 400);
+  });
+}
+
+/* ================================================================
+   INTEL HUB
+================================================================ */
+function renderIntelHub(article) {
+  const hub = document.getElementById('intelHub');
+  if (!hub) return;
+
+  const related = allArticles.filter(a => a.title !== article.title && isTechArticle(a)).slice(0, 5);
+  const summary = article.description || (article.content || '').slice(0, 250) || 'No summary available.';
+
+  hub.innerHTML = `
+    <div class="intel-hub">
+      <div class="intel-hub-header"><span style="font-size:18px;">🧠</span><span class="intel-hub-title">Intelligence Hub</span></div>
+      <div class="intel-powered">POWERED BY PROMETHEUS AI</div>
+
+      <div class="intel-wrapper">
+        <div class="intel-main">
+          <div class="intel-title">AI Intelligence Summary</div>
+          <div class="intel-summary">${summary}</div>
+        </div>
+
+        <div class="intel-related">
+          <div class="intel-subtitle">Live Tech Radar</div>
+          ${related.map(item => `
+            <div class="intel-card" onclick="openArticle(${JSON.stringify(item).replace(/"/g,'&quot;')})" style="cursor:pointer;">
+              <div class="intel-dot"></div>
+              <div>
+                <div class="intel-headline">${item.title}</div>
+                <div class="intel-meta">${item.source || 'Tech Feed'} • ${getDynamicTime(item.published_at)}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ================================================================
+   CHATBOT
+================================================================ */
+// FIX: quick-ask helper for suggestion chips
+function quickAsk(question) {
+  const input = document.getElementById('chatInput');
+  if (input) { input.value = question; askArticleBot(); }
+}
+
+async function askArticleBot() {
+  const input = document.getElementById('chatInput');
+  const box   = document.getElementById('chatMessages');
+  if (!input || !box) return;
+
+  const question = input.value.trim();
+  if (!question) return;
+
+  box.innerHTML += `<div class="chat-user">${question}</div>`;
+  input.value = '';
+  box.innerHTML += `<div class="chat-bot thinking-msg">Thinking...</div>`;
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const response = await fetch(`/api/article-chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question,
+        article: {
+          title:       currentArticle?.title       || '',
+          description: currentArticle?.description || '',
+          content:     currentArticle?.content     || '',
+          source:      currentArticle?.source      || '',
+        },
+      }),
+    });
+
+    const data = await response.json();
+    document.querySelector('.thinking-msg')?.remove();
+    box.innerHTML += `<div class="chat-bot">${data.response || 'No response.'}</div>`;
+  } catch (err) {
+    console.error(err);
+    document.querySelector('.thinking-msg')?.remove();
+    box.innerHTML += `<div class="chat-bot">⚠️ AI service unavailable.</div>`;
+  }
+
+  box.scrollTop = box.scrollHeight;
+}
+
+/* ================================================================
+   DOMContentLoaded – SINGLE INIT BLOCK
+   FIX: was duplicated; merged into one listener
+================================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Chip / filter interactions
+  document.querySelectorAll('.topic-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      chip.classList.toggle('unselected');
+    });
+  });
+
+  document.querySelectorAll('.bk-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.bk-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.digest-check').forEach(chk => {
+    chk.addEventListener('click', () => {
+      chk.classList.toggle('on');
+      chk.classList.toggle('off');
+      chk.textContent = chk.classList.contains('on') ? '✓' : '';
+    });
+  });
+
+  // Init settings controls
+  initTheme();
+  initPasswordUpdate();
+  initDeleteAccount();
+
+  // Auth gate
+  if (sessionStorage.getItem('loggedIn') === 'true') {
+    loadUserProfile();
+    showScreen('dashboard');
+    loadArticles();
+    setupSearch();
+  } else {
+    showScreen('login');
+  }
+
+  // Auto-refresh every 5 minutes
+  setInterval(loadArticles, 300_000);
+});
+
+</script>
+</body>
+</html>
