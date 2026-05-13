@@ -7,6 +7,7 @@ const path = require("path");
 const cron = require("node-cron");
 const axios = require("axios");
 const { createClient } = require("@supabase/supabase-js");
+const WebSocket = require("ws");
 const OpenAI = require("openai");
 
 /* ═══════════════════════════════════
@@ -68,10 +69,15 @@ try {
     process.env.SUPABASE_URL &&
     process.env.SUPABASE_KEY
   ) {
-    supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_KEY
-    );
+supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY,
+  {
+    realtime: {
+      transport: WebSocket
+    }
+  }
+);
 
     console.log("✅ Supabase connected");
   } else {

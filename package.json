@@ -4,15 +4,12 @@
   "description": "AI-powered technology intelligence platform",
   "main": "server.js",
   "type": "commonjs",
-
   "scripts": {
     "start": "node server.js"
   },
-
   "engines": {
     "node": "20.x"
   },
-
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@mozilla/readability": "^0.6.0",
@@ -29,6 +26,7 @@
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "openai": "^6.35.0",
-    "unfluff": "^3.2.0"
+    "unfluff": "^3.2.0",
+    "ws": "^8.20.1"
   }
 }
