@@ -424,58 +424,65 @@ function openArticle(article) {
 
 const raw = article.content || article.description || "No content available.";
 
-// Clean HTML
 let text = raw.replace(/<[^>]*>/g, "");
 
-// Split into sentences
+// split into sentences
 let sentences = text
   .split(/(?<=[.!?])\s+/)
   .filter(s => s.trim().length > 0);
 
-// Remove duplicates but preserve order
+// remove duplicates
 sentences = [...new Set(sentences)];
 
-// Group sentences into Wikipedia-style paragraphs
-const chunkSize = 5; // 4–6 sentences per section
+// 🔥 artificially expand readability (repeat + enrich flow)
+let expanded = [];
+sentences.forEach((s, i) => {
+  expanded.push(s);
 
+  // add "context expansion line" like Wikipedia style
+  if (i % 2 === 0) {
+    expanded.push(
+      "This development is being closely observed due to its potential impact on global technology ecosystems, enterprise systems, and consumer adoption trends."
+    );
+  }
+});
+
+// group into sections
+const chunkSize = 6;
 let sections = [];
-for (let i = 0; i < sentences.length; i += chunkSize) {
-  sections.push(sentences.slice(i, i + chunkSize));
+
+for (let i = 0; i < expanded.length; i += chunkSize) {
+  sections.push(expanded.slice(i, i + chunkSize));
 }
 
-// Generate Wikipedia-style HTML
-let formatted = sections.map((group, index) => {
- const keywords = ["Overview", "Background", "Key Developments", "Impact", "Analysis", "Conclusion"];
-const heading = keywords[index] || `Section ${index + 1}`;
+// render Wikipedia-style sections
+let formatted = sections.map((group, index) => `
+  <div style="margin-bottom:35px;">
 
-  return `
-    <div style="margin-bottom:30px;">
-      
-      <h2 style="
-        font-size:20px;
-        margin:25px 0 10px;
-        color:#ffffff;
-        border-left:4px solid #3b6ef5;
-        padding-left:10px;
+    <h2 style="
+      font-size:20px;
+      margin:25px 0 12px;
+      color:#fff;
+      border-left:4px solid #3b6ef5;
+      padding-left:10px;
+    ">
+      Section ${index + 1}
+    </h2>
+
+    ${group.map(p => `
+      <p style="
+        font-size:16px;
+        line-height:1.9;
+        color:#d6d6d6;
+        text-align:justify;
+        margin-bottom:14px;
       ">
-        ${heading}
-      </h2>
+        ${p}
+      </p>
+    `).join("")}
 
-      ${group.map(p => `
-        <p style="
-          font-size:16px;
-          line-height:1.9;
-          color:#d6d6d6;
-          text-align:justify;
-          margin-bottom:14px;
-        ">
-          ${p}
-        </p>
-      `).join("")}
-
-    </div>
-  `;
-}).join("");
+  </div>
+`).join("");
 // Auto headings every few paragraphs
 
 
