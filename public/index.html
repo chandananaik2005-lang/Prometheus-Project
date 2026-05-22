@@ -20,16 +20,47 @@
     </div>
     <div class="logo-sub">Tech Radar</div>
   </div>
+
   <div class="auth-card">
     <h2>Welcome Back</h2>
-    <p class="auth-sub">Log in to your personalized tech intelligence dashboard.</p>
+    <p class="auth-sub">
+      Log in to your personalized tech intelligence dashboard.
+    </p>
+
     <div class="divider"><span>LOGIN</span></div>
+
     <label class="field-label">Email address</label>
-    <input id="login-email" class="input-field" type="email" placeholder="name@company.com" required>
-    <label class="field-label">Password <a href="#">Forgot password?</a></label>
-    <input id="login-password" class="input-field" type="password" placeholder="••••••••" required>
+    <input 
+      id="login-email" 
+      class="input-field" 
+      type="email" 
+      placeholder="name@company.com" 
+      required
+    >
+    <small id="email-error" style="color:red;"></small>
+
+    <label class="field-label">
+      Password 
+      <a href="#">Forgot password?</a>
+    </label>
+
+    <input 
+      id="login-password" 
+      class="input-field" 
+      type="password" 
+      placeholder="••••••••" 
+      required
+    >
+    <small id="password-error" style="color:red;"></small>
+
     <button class="btn-primary" onclick="login()">Log In</button>
-    <p class="auth-switch">Don't have an account? <a href="#" onclick="showScreen('signup'); return false;">Sign up free</a></p>
+
+    <p class="auth-switch">
+      Don't have an account? 
+      <a href="#" onclick="showScreen('signup'); return false;">
+        Sign up free
+      </a>
+    </p>
   </div>
 </div>
 
