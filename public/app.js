@@ -62,17 +62,61 @@ function showToast(msg, type = "info") {
    AUTH
 ================================================================ */
 function login() {
-  const email    = (document.getElementById("login-email")?.value || "").trim();
-  const password =  document.getElementById("login-password")?.value || "";
 
-  if (!email || !password) { showToast("Please fill in all fields.", "error"); return; }
+  const email = (document.getElementById("login-email")?.value || "").trim();
+  const password = document.getElementById("login-password")?.value || "";
 
+  // Error elements
+  const emailError = document.getElementById("email-error");
+  const passwordError = document.getElementById("password-error");
+
+  // Clear previous errors
+  emailError.innerText = "";
+  passwordError.innerText = "";
+
+  let isValid = true;
+
+  // Email regex validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Email validation
+  if (!email) {
+    emailError.innerText = "Email is required";
+    isValid = false;
+  }
+  else if (!emailPattern.test(email)) {
+    emailError.innerText = "Enter valid email address";
+    isValid = false;
+  }
+
+  // Password validation
+  if (!password) {
+    passwordError.innerText = "Password is required";
+    isValid = false;
+  }
+  else if (password.length < 8) {
+    passwordError.innerText = "Password must contain minimum 8 characters";
+    isValid = false;
+  }
+
+  // Stop if validation fails
+  if (!isValid) return;
+
+  // Existing login code
   const stored = JSON.parse(localStorage.getItem("prom_user") || "null");
-  if (!stored)                                   { showToast("No account found — sign up first.", "error"); return; }
-  if (email !== stored.email || password !== stored.password)
-                                                 { showToast("Wrong email or password.", "error");          return; }
+
+  if (!stored) {
+    showToast("No account found — sign up first.", "error");
+    return;
+  }
+
+  if (email !== stored.email || password !== stored.password) {
+    showToast("Wrong email or password.", "error");
+    return;
+  }
 
   sessionStorage.setItem("loggedIn", "true");
+
   loadUserProfile();
   showScreen("dashboard");
   loadArticles();
@@ -80,17 +124,42 @@ function login() {
 }
 
 function signup() {
-  const name     = (document.getElementById("signup-name")?.value     || "").trim();
-  const email    = (document.getElementById("signup-email")?.value    || "").trim();
-  const password =  document.getElementById("signup-password")?.value || "";
-  const confirm  =  document.getElementById("signup-confirm")?.value  || "";
 
-  if (!name || !email || !password || !confirm) { showToast("Please fill all fields.", "error"); return; }
-  if (password !== confirm)  { showToast("Passwords do not match.",          "error"); return; }
-  if (password.length < 8)   { showToast("Password needs 8+ characters.",    "error"); return; }
+  const name = (document.getElementById("signup-name")?.value || "").trim();
+  const email = (document.getElementById("signup-email")?.value || "").trim();
+  const password = document.getElementById("signup-password")?.value || "";
+  const confirm = document.getElementById("signup-confirm")?.value || "";
 
-  localStorage.setItem("prom_user", JSON.stringify({ name, email, password }));
+  // Email validation regex
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!name || !email || !password || !confirm) {
+    showToast("Please fill all fields.", "error");
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    showToast("Enter valid email address.", "error");
+    return;
+  }
+
+  if (password !== confirm) {
+    showToast("Passwords do not match.", "error");
+    return;
+  }
+
+  if (password.length < 8) {
+    showToast("Password needs 8+ characters.", "error");
+    return;
+  }
+
+  localStorage.setItem(
+    "prom_user",
+    JSON.stringify({ name, email, password })
+  );
+
   showToast("Account created! Please log in.", "success");
+
   showScreen("login");
 }
 
@@ -98,7 +167,6 @@ function logout() {
   sessionStorage.removeItem("loggedIn");
   showScreen("login");
 }
-
 /* ================================================================
    VOICE MODAL
 ================================================================ */
