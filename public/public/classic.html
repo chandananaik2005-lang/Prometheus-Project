@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prometheus – Tech Radar</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen active" id="screen-login">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+
+  <div class="auth-card">
+    <h2>Welcome Back</h2>
+    <p class="auth-sub">
+      Log in to your personalized tech intelligence dashboard.
+    </p>
+
+    <div class="divider"><span>LOGIN</span></div>
+
+    <label class="field-label">Email address</label>
+    <input 
+      id="login-email" 
+      class="input-field" 
+      type="email" 
+      placeholder="name@company.com" 
+      required
+    >
+    <small id="email-error" style="color:red;"></small>
+
+    <label class="field-label">
+      Password 
+      <a href="#">Forgot password?</a>
+    </label>
+
+    <input 
+      id="login-password" 
+      class="input-field" 
+      type="password" 
+      placeholder="••••••••" 
+      required
+    >
+    <small id="password-error" style="color:red;"></small>
+
+    <button class="btn-primary" onclick="login()">Log In</button>
+
+    <p class="auth-switch">
+      Don't have an account? 
+      <a href="#" onclick="showScreen('signup'); return false;">
+        Sign up free
+      </a>
+    </p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SIGNUP SCREEN
+════════════════════════════════ -->
+<div class="screen auth-screen" id="screen-signup">
+  <div class="auth-logo">
+    <div class="auth-logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">Prometheus</span>
+    </div>
+    <div class="logo-sub">Tech Radar</div>
+  </div>
+  <div class="auth-card">
+    <h2>Create Your Account</h2>
+    <p class="auth-sub">Join thousands of tech professionals staying ahead of the curve.</p>
+    <div class="divider"><span>SIGNUP</span></div>
+    <label class="field-label">Full name</label>
+    <input id="signup-name" class="input-field" type="text" placeholder="Alexander Voss" required>
+    <label class="field-label">Work email</label>
+    <input id="signup-email" class="input-field" type="email" placeholder="name@company.com" required>
+    <label class="field-label">Password</label>
+    <input id="signup-password" class="input-field" type="password" placeholder="Min. 8 characters" required>
+    <label class="field-label">Confirm password</label>
+    <input id="signup-confirm" class="input-field" type="password" placeholder="Re-enter password" required>
+    <button class="btn-primary" onclick="signup()">Create Account</button>
+    <p class="auth-switch">Already have an account? <a href="#" onclick="showScreen('login'); return false;">Log in</a></p>
+  </div>
+  <div class="auth-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Help Center</a>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- ════════════════════════════════
+     DASHBOARD
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-dashboard">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showScreen('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showScreen('analytics')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>
+        Analytics
+      </div>
+      <div class="nav-item" onclick="showScreen('bookmarks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Bookmarks
+      </div>
+      <div class="nav-item" onclick="showScreen('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="logout-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </div>
+    </div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <!-- FIX: added id="searchBox" so setupSearch() can find the input -->
+        <input id="searchBox" type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="topbar-right">
+        <!-- FIX: avatar initials set dynamically by loadUserProfile() -->
+       <div class="avatar" onclick="showScreen('settings')" id="topbarAvatar">?</div>
+      </div>
+    </div>
+    <div class="page-content">
+     <div class="feature-cards">
+  <div class="feature-card blue">
+
+    <div class="feature-card-tag">
+      AI Intelligence Platform
+    </div>
+
+    <h3>
+      Prometheus
+    </h3>
+
+    <p>
+      Prometheus is an advanced intelligence dashboard designed to help users
+      explore the latest breakthroughs in Artificial Intelligence, Robotics,
+      Quantum Computing, Web3, Cybersecurity, and Emerging Technologies.
+      Track real-time trends, analyze industry movements, bookmark important
+      insights, and stay ahead with curated intelligence feeds powered by
+      smart discovery systems.
+    </p>
+
+    <div class="deep-dive">
+      Explore Intelligence
+    </div>
+</div>
+</div>
+
+
+
+      <div class="feed-section">
+        <div>
+          <div class="feed-header">
+            <h3>Intelligence Feed</h3>
+            <span class="badge">Live</span>
+          </div>
+          <div id="news-container"></div>
+          <div id="load-more" onclick="loadMoreArticles()">Load More Intelligence →</div>
+        </div>
+
+        <div>
+         
+          <div class="widget" id="prometheusWidget">
+            <div class="widget-header">
+              <div class="widget-title">✨ Prompt Prometheus</div>
+            </div>
+            <div class="prompt-item" onclick="sendPrometheusPrompt(this.textContent.trim().replace('›','').trim())">Summarize today's breakthroughs <span>›</span></div>
+            <div class="prompt-item" onclick="sendPrometheusPrompt(this.textContent.trim().replace('›','').trim())">Find funding news in Robotics <span>›</span></div>
+            <div class="prompt-item" onclick="sendPrometheusPrompt(this.textContent.trim().replace('›','').trim())">Explain latest NVIDIA results <span>›</span></div>
+            <div class="prompt-item" onclick="sendPrometheusPrompt(this.textContent.trim().replace('›','').trim())">Analyze sentiment on Web3 <span>›</span></div>
+            <div class="prompt-note">Assistant is ready to synthesize context from your feed.</div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Voice FAB -->
+
+</div>
+
+<!-- ════════════════════════════════
+     ARTICLE VIEW
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-article">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="topbar-right">
+        <div class="avatar" onclick="showScreen('settings')" id="topbarAvatar">?</div>
+      </div>
+    </div>
+    <div class="article-layout">
+      <!-- article body -->
+      <div class="article-body">
+        <div class="article-cat-badge" id="articleCategory">AI</div>
+        <h1 id="articleTitle">Loading...</h1>
+        <div class="article-meta">
+          <!-- FIX: articleAvatar is a div, not a text node – use textContent safely -->
+          <div class="article-author-avatar" id="articleAvatarIcon">AI</div>
+          <div>
+            <div class="article-author-name" id="articleAuthor">AI Generator</div>
+            <div class="article-date" id="articleDate">Loading...</div>
+          </div>
+          <div class="article-actions">
+            <div class="article-action-btn" onclick="bookmarkCurrentArticle()" title="Bookmark">🔖</div>
+            
+          </div>
+        </div>
+        <div class="article-hero" id="articleImage">🧠</div>
+        <div id="articleContent"></div>
+      </div>
+      <!-- intel hub with chatbot -->
+      <div class="intel-hub" id="intelHub">
+        <!-- AI Summary Section -->
+        <div class="intel-wrapper">
+          <div class="intel-main">
+            <div class="intel-title">🤖 AI Summary</div>
+            <div class="intel-summary" id="aiSummary">
+              Loading AI-powered summary...
+            </div>
+          </div>
+        </div>
+
+        <!-- Chatbot Section -->
+        <div class="chat-section">
+          <div class="chat-label">
+            <span class="live-dot"></span>
+            Ask Prometheus AI
+          </div>
+          <div id="chatMessages" style="max-height:260px;overflow-y:auto;margin-bottom:12px;"></div>
+          <div class="chat-suggestions">
+            <div class="chat-sug" onclick="quickAsk('Summarise this article')">Summarise →</div>
+            <div class="chat-sug" onclick="quickAsk('What are the key takeaways?')">Key takeaways →</div>
+            <div class="chat-sug" onclick="quickAsk('What companies are mentioned?')">Companies →</div>
+          </div>
+          <div class="chat-input-row">
+            <input id="chatInput" class="chat-input" type="text" placeholder="Ask anything about this article..." onkeydown="if(event.key==='Enter') askArticleBot()">
+            <button class="chat-send" onclick="askArticleBot()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Related Intel Section -->
+        <div class="intel-related">
+          <div class="intel-subtitle">📡 Related Intelligence</div>
+          <div id="relatedIntel">
+            <div class="intel-card">
+              <div class="intel-dot"></div>
+              <div>
+                <div class="intel-headline">Loading related articles...</div>
+                <div class="intel-meta">Analyzing content...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ANALYTICS SCREEN
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-analytics">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <span class="sidebar-logo-name">Prometheus</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item active" onclick="showScreen('analytics')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>
+        Analytics
+      </div>
+      <div class="nav-item" onclick="showScreen('bookmarks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Bookmarks
+      </div>
+      <div class="nav-item" onclick="showScreen('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="logout-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </div>
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" placeholder="Search news, companies, topics...">
+      </div>
+      <div class="topbar-right">
+        <div class="avatar" onclick="showScreen('settings')" id="topbarAvatar">?</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Header -->
+      <div class="analytics-header">
+        <div>
+          <h2>📊 Analytics</h2>
+          <p>Real-time insights from your tech news feed</p>
+        </div>
+        <div class="analytics-btns">
+          <button class="btn-outline" onclick="loadAnalytics(true)">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- Loading state -->
+      <div id="analytics-loading" style="text-align:center; color:var(--text3); padding:3rem; font-size:14px;">
+        ↻ Loading analytics...
+      </div>
+
+      <!-- Stat cards -->
+      <div id="analytics-stats" class="stat-cards" style="display:none;">
+        <!-- filled by JS -->
+      </div>
+
+      <!-- Charts row -->
+      <div id="analytics-charts" style="display:none;">
+        <div class="charts-row">
+          <!-- Bar chart: categories -->
+          <div class="chart-card">
+            <h4>Articles by Category</h4>
+            <p>Distribution across technology topics</p>
+            <div class="chart-area" style="height:200px;">
+              <canvas id="analytics-cat-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Donut chart: top sources -->
+          <div class="chart-card">
+            <h4>Top Sources</h4>
+            <p>News outlets by volume</p>
+            <div class="donut-wrap" style="margin-top:8px;">
+              <canvas id="analytics-donut-chart" width="130" height="130" style="flex-shrink:0;"></canvas>
+              <div class="donut-legend" id="analytics-donut-legend"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Source bar chart full width -->
+        <div class="influencers-card">
+          <h4>Source Breakdown</h4>
+          <p>Article count per publication</p>
+          <div class="chart-area" style="height:180px;">
+            <canvas id="analytics-src-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Bottom info cards -->
+        <div class="bottom-cards" id="analytics-bottom-cards">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ════════════════════════════════
+     BOOKMARKS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-bookmarks">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item active" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="search-wrap"><span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search news, companies, topics..."></div>
+      <div class="avatar" onclick="showScreen('settings')" id="topbarAvatar">?</div>
+    </div>
+
+    <div class="page-content">
+
+      <div class="bk-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span style="font-size:20px;">🔖</span><h2 style="font-size:28px;font-weight:800;margin:0;">Intelligence Library</h2></div>
+          <p style="color:var(--text2);font-size:14px;">Manage and revisit your curated tech insights.</p>
+        </div>
+
+      
+      </div>
+
+      <!-- UPDATED STATS -->
+      <div class="bk-stats">
+        <div><div class="bk-stat-num">42</div><div class="bk-stat-label">Saved Articles</div></div>
+        <div><div class="bk-stat-num blue">12</div><div class="bk-stat-label">Unread</div></div>
+        <div><div class="bk-stat-num green">5</div><div class="bk-stat-label">Shared</div></div>
+        <div><div class="bk-stat-num" style="color:#ff4d6d;">18</div><div class="bk-stat-label">Liked</div></div>
+        <div><div class="bk-stat-num" style="color:#facc15;">9</div><div class="bk-stat-label">Pinned</div></div>
+      </div>
+
+      <!-- Dynamic category filter chips — rebuilt from bookmarks data -->
+      <div class="bk-filters" id="bk-filter-bar">
+        <button class="bk-filter active" data-cat="All">All</button>
+      </div>
+
+      <!-- Dynamic bookmark list rendered by renderBookmarks() in app.js -->
+      <div id="bk-dynamic-list"></div>
+
+      <div class="bk-end" id="bk-end-msg" style="display:none;">
+        You've reached the end of your library.<br>
+        <span class="bk-discover" onclick="showScreen('dashboard')">
+          Discover more trends
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ════════════════════════════════
+     SETTINGS
+════════════════════════════════ -->
+<div class="screen app-screen" id="screen-settings">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⚡</div><span class="sidebar-logo-name">Prometheus</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="showScreen('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 5"/></svg>Analytics</div>
+      <div class="nav-item" onclick="showScreen('bookmarks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Bookmarks</div>
+      <div class="nav-item active" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div>
+    </nav>
+    <div class="sidebar-bottom"><div class="logout-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</div></div>
+  </div>
+  <div class="main-area">
+    <div class="page-content">
+      <div class="settings-header"><h2>Account &amp; Preferences</h2></div>
+      <div class="settings-grid">
+
+        <!-- PROFILE CARD -->
+        <div class="settings-card">
+          <div class="profile-center">
+            <div class="profile-avatar" id="profileAvatar">U<div class="profile-online"></div></div>
+            <div class="profile-name" id="profileName">User Name</div>
+            <div class="profile-email" id="profileEmail">user@email.com</div>
+          </div>
+          <button class="signout-btn" onclick="logout()">↗ Sign Out of Prometheus</button>
+        </div>
+
+        <!-- PREFERENCES CARD -->
+        <div class="settings-card">
+          <div class="section-card-header">⚙️ Preferences</div>
+          <div class="setting-row">
+            <div><div class="setting-label">Dark Mode</div><div class="setting-desc">Toggle light/dark theme</div></div>
+            <label class="toggle-switch"><input type="checkbox" id="themeToggle"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">Email Notifications</div><div class="setting-desc">Receive updates via email</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">Push Notifications</div><div class="setting-desc">Get instant alerts</div></div>
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <!-- PASSWORD CARD -->
+        <div class="settings-card">
+          <h4 class="section-card-header">Change Password</h4>
+          <input type="password" id="currentPass" placeholder="Current Password" class="password-input">
+          <input type="password" id="newPass" placeholder="New Password" class="password-input">
+          <input type="password" id="confirmPass" placeholder="Confirm Password" class="password-input">
+          <button class="btn-primary" id="updatePasswordBtn">Update Password</button>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="settings-card">
+          <div class="danger-zone">
+            <div class="danger-title">Danger Zone</div>
+            <div class="danger-text">Deleting your account is permanent and cannot be undone.</div>
+            <button class="delete-btn" id="deleteAccountBtn">Delete Account</button>
+          </div>
+        </div>
+
+        <!-- COMMUNICATION -->
+        <div class="settings-card">
+          <div class="section-card-header">🔔 Communication &amp; Digests</div>
+          <div class="digest-item">
+            <div class="digest-check on">✓</div>
+            <div>Daily Morning Intelligence</div>
+          </div>
+        </div>
+
+        <!-- RESEARCH HISTORY -->
+        <div class="settings-card full">
+          <div class="section-card-header">🔄 Research History</div>
+          <div id="researchHistory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:8px;"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,26 +1,35 @@
 {
   "name": "prometheus",
   "version": "1.0.0",
-  "description": "AI-powered technology intelligence platform",
+  "description": "AI-powered technology intelligence platform with MERN stack tech news dashboard",
   "main": "server.js",
   "type": "commonjs",
-  "scripts": {
-    "start": "node server.js"
-  },
+
+"scripts": {
+  "start": "node server.js",
+  "dev-server": "nodemon server.js",
+  "client": "cd public && react-scripts start",
+    "client-build": "npm run build --prefix public",
+   "build": "npm run client-build",
+  "dev": "concurrently \"npm run dev-server\" \"npm run client\""
+},
+
   "engines": {
     "node": "20.x"
   },
+
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@mozilla/readability": "^0.6.0",
-    "@supabase/supabase-js": "^2.105.1",
     "axios": "^1.16.0",
     "cheerio": "^1.2.0",
+    "concurrently": "^9.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
+    "groq-sdk": "^1.2.0",
     "jsdom": "^29.0.2",
-    "mongodb": "^7.1.1",
+    "mongodb": "^7.2.0",
     "mongoose": "^9.5.0",
     "node-cache": "^5.1.2",
     "node-cron": "^4.2.1",
@@ -28,5 +37,9 @@
     "openai": "^6.35.0",
     "unfluff": "^3.2.0",
     "ws": "^8.20.1"
+  },
+
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
