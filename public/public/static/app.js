@@ -1418,14 +1418,8 @@ function renderBookmarks(filterCat) {
             ${item.read ? '<span>· ✅ Read</span>'    : ''}
           </div>
           <div style="display:flex;gap:10px;margin-top:12px;">
-            <button onclick="event.stopPropagation();toggleLike(${realIdx})"
-              style="border:none;background:var(--surface2);color:${item.like?'#ef4444':'white'};padding:8px 10px;border-radius:8px;cursor:pointer;">
-              ${item.like ? '💖' : '❤️'}
-            </button>
-            <button onclick="event.stopPropagation();togglePin(${realIdx})"
-              style="border:none;background:var(--surface2);color:${item.pin?'#f59e0b':'white'};padding:8px 10px;border-radius:8px;cursor:pointer;">
-              ${item.pin ? '📍' : '📌'}
-            </button>
+           
+            
             <button onclick="event.stopPropagation();toggleRead(${realIdx})"
               style="border:none;background:var(--surface2);color:white;padding:8px 10px;border-radius:8px;cursor:pointer;">
               ${item.read ? '☑' : '✔'}
@@ -1842,7 +1836,7 @@ async function loadAnalytics(forceRefresh) {
             <div class="bottom-card-icon">📊</div>
             <h4>Feed Summary</h4>
             <p>You have <span class="highlight">${articles.length} articles</span> across <span class="highlight">${catEntries.length} categories</span>. The most covered topic is <span class="highlight">${topCat}</span> with <span class="highlight">${catCounts[topCat] || 0} articles</span>.</p>
-            <a style="cursor:pointer;" onclick="loadAnalytics(true)">↻ Refresh data</a>
+            
           </div>
           <div class="bottom-card">
             <div class="bottom-card-icon">🏆</div>
