@@ -38,10 +38,7 @@ export default function Navbar({ total, loading, onRefresh, bookmarkCount }) {
         {total > 0 && (
           <span className="count-badge">{total} articles</span>
         )}
-        <button className="refresh-btn" onClick={onRefresh} disabled={loading}>
-          <span className={loading ? 'spin' : ''}>↻</span>
-          {loading ? 'Refreshing...' : 'Refresh'}
-        </button>
+       
       </div>
     </nav>
   );
