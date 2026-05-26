@@ -1576,36 +1576,10 @@ function bookmarkCurrentArticle() {
   showToast('Bookmarked! 🔖', 'success');
 }
 
-function shareCurrentArticle() {
-  if (!currentArticle) return;
-  const bk   = JSON.parse(localStorage.getItem('prom_bookmarks') || '[]');
-  const item = bk.find(b => b.title === currentArticle.title);
-  if (item) { item.shared = true; localStorage.setItem('prom_bookmarks', JSON.stringify(bk)); }
-  if (navigator.share) {
-    navigator.share({ title: currentArticle.title, text: currentArticle.description || '' });
-  } else {
-    navigator.clipboard?.writeText(window.location.href);
-    showToast('Link copied!', 'success');
-  }
-}
 
-function toggleLike(index) {
-  const bk = JSON.parse(localStorage.getItem('prom_bookmarks') || '[]');
-  if (!bk[index]) return;
-  bk[index].like = !bk[index].like;
-  localStorage.setItem('prom_bookmarks', JSON.stringify(bk));
-  showToast(bk[index].like ? 'Added to favorites ❤️' : 'Removed from favorites', 'info');
-  renderBookmarks();
-}
 
-function togglePin(index) {
-  const bk = JSON.parse(localStorage.getItem('prom_bookmarks') || '[]');
-  if (!bk[index]) return;
-  bk[index].pin = !bk[index].pin;
-  localStorage.setItem('prom_bookmarks', JSON.stringify(bk));
-  showToast(bk[index].pin ? 'Article pinned 📌' : 'Article unpinned', 'info');
-  renderBookmarks();
-}
+
+
 
 function toggleRead(index) {
   const bk = JSON.parse(localStorage.getItem('prom_bookmarks') || '[]');
